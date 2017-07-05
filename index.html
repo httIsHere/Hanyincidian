@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MusicXML Examination</title>
+<link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style media="screen">
+	*{
+		margin:0;
+		padding: 0;
+	}
+	body{
+		background: url('index-bg.jpg') fixed no-repeat;
+		background-size: 100% 120%;
+	}
+	.mainView{width: 100%;display: flex;justify-content: space-around;align-items: center;align-content: center;}
+	.mainImg{width: 50%;}
+	.mainImg img{width: 100%;height: 100%;}
+	#signinForm{
+		width: 35%;
+		height: auto;
+		padding: 25px;
+		border-radius: 15px;
+		background-color: #fafafa;
+		margin: 0;
+		margin-top:10%;
+	}
+	.row{
+		margin: 0;
+		margin-bottom: 10px;
+	}
+	input[type=submit]{
+		background-color: #f0f0f0;
+	}
+	input[type=radio]{margin-left: 15px;}
+</style>
+</head>
+
+<body>
+	    <!-- <table width="95%" border="0" id="resultList" style="width:100%;"> -->
+	    <div class="mainView">
+	    	<div class="mainImg">
+	    		<img src="index_img.jpg"/>
+	    	</div>
+			<div id='signinForm' class="container">
+				<div class="row">
+					学校<select  id="School_ID" name="School_ID" class="form-control"></select>
+				</div>
+				<div class="row">
+					学号<input type="text" id="username" name="username" class="form-control">
+				</div>
+				<div class="row">
+					密码<input type="password" id="pwd" name="pwd" class="form-control">
+				</div>
+				<div class="row" style="display: flex; justify-content: flex-start;align-items: center;">
+					身份
+					<input  name="persontype" type="radio" value="s" checked  />学生
+					<input  name="persontype" type="radio" value="t"  />教师
+					<input  name="persontype" type="radio" value="a"  />管理员
+				</div>
+				<input type="submit" name="submit" value="登录"  onclick="send()" class="form-control"/>
+			</div>
+		</div>
+	    <!-- </table> -->
+</body>
+
+<script type="text/javascript" src="/cgi-bin/commonJS.js"> </script>
+<script type="text/javascript">
+	function send()
+	{
+		var pDate={};
+		pDate['processing']=1;
+		oneSchool_ID=document.getElementById("School_ID").value;pDate['School_ID']=oneSchool_ID;
+		oneUserName=document.getElementById("username").value;pDate['username']=oneUserName;
+		txtContent=document.getElementById("pwd").value;pDate['pwd']=txtContent;
+		oneType=selectVar();pDate['persontype']=oneType;
+		postDate=JSON.stringify(pDate);//alert("postDate="+postDate);
+		var byUrl="index_mid.php";
+		var xmlDoc;
+		getxmlDoc(byUrl,postDate,function(xmlDoc) { //alert(xmlDoc);
+			setCookie("musicXMLExamUser",oneUserName,0.01);
+			if(xmlDoc==0) alert("用户名、密码或身份选择错误，也不能为空!或者密码过期，请联系管理员或教师！");
+			else {
+			    if(selectVar()=='s') {
+						// var UploadWin=window.open("ME_Student.html?Stucent_ID="+oneUserName+"&School_ID="+oneSchool_ID,"info","width=600,height=400");
+						window.location.href = "ME_Student.html?Stucent_ID="+oneUserName+"&School_ID="+oneSchool_ID;
+						// window.open("ME_Student.html?Stucent_ID="+oneUserName+"&School_ID="+oneSchool_ID,"info","width=600,height=400");
+					}
+				if(selectVar()=='t') {
+					window.location.href = "ME_Teacher.html?Teacher_ID="+oneUserName+"&School_ID="+oneSchool_ID;
+					// window.open("ME_Teacher.html?Teacher_ID="+oneUserName+"&School_ID="+oneSchool_ID,"info","width=600,height=400");
+				}
+				if(selectVar()=='a') {
+					window.location.href = "ME_Admin.html?Admin_ID="+oneUserName+"&School_ID="+oneSchool_ID;
+					// window.open("ME_Admin.html?Admin_ID="+oneUserName+"&School_ID="+oneSchool_ID,"info","width=600,height=400");
+				}
+				// UploadWin.focus();
+				// window.close();
+			}
+		});
+	}
+
+	function listshow(xmlDoc)
+	{	var field=eval(xmlDoc);
+		schoolstr='';
+		// schoolstr='学校<select  id="School_ID" name="School_ID">';
+		// $('select').attr('id',School_ID);
+		// $('select').attr('name',School_ID);
+		for(var i=0;i<field.length;i++)
+		{
+			schoolname=field[i].School_Name; schoolid=field[i].School_ID;
+			schoolstr='<option value ="'+schoolid+'">'+schoolname+'</option>';
+			$('select').append(schoolstr);
+		}
+		//schoolstr=schoolstr+'<option value ="'+'1000'+'">'+'����'+'</option>';
+		// schoolstr=schoolstr+'</select>';
+		// var newTr = resultList.insertRow();
+		// var newTd0 = newTr.insertCell(0);
+		// newTd0.innerHTML =schoolstr;
+		// var newTr = resultList.insertRow();
+		// var newTd0 = newTr.insertCell(0);
+		// newTd0.innerHTML ='学号<input type="text" id="username" name="username"> ';
+		// var newTr = resultList.insertRow();
+		// var newTd0 = newTr.insertCell(0);
+		// newTd0.innerHTML ='密码<input type="password" id="pwd" name="pwd"> ';
+		// var newTr = resultList.insertRow();
+		// var newTd0 = newTr.insertCell(0);	var newTd1 = newTr.insertCell(1);	var newTd2 = newTr.insertCell(2);
+		// newTd0.innerHTML ='身份<input  name="persontype" type="radio" value="s" checked  />学生 ';
+		// newTd1.innerHTML ='<input  name="persontype" type="radio" value="t"  />教师 ';
+		// newTd2.innerHTML ='<input  name="persontype" type="radio" value="a"  />管理员 ';
+		// var newTr = resultList.insertRow();
+		// var newTd0 = newTr.insertCell(0);
+		// newTd0.innerHTML ='<input type="submit" name="submit" value="登录"  onclick="send()"/>';
+	}
+
+	var pDate={};
+	pDate['processing']=0;
+	postDate=JSON.stringify(pDate);//alert("postDate="+postDate);
+	var byUrl="index_mid.php";
+	var xmlDoc;
+	getxmlDoc(byUrl,postDate,function(xmlDoc) { //alert('school xmlDoc='+xmlDoc);
+		listshow(xmlDoc);
+	});
+
+	function selectVar()
+	{
+	    var persons = document.getElementsByName('persontype');//alert(persons.length);
+		for(var i=0;i<persons.length;i++){//alert(persons[i].value);alert(persons[i].checked);
+			 if(persons[i].checked){
+				return persons[i].value;
+			}
+		}
+	}
+</script>
+
+
+</html>
