@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Student</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+	<link rel="stylesheet" href="http://www.musicren.com/css/style.css">
+	<link rel="stylesheet" href="../beMusic/weui.css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="theme.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="fileinput.js" type="text/javascript"></script>
+    <script src="zh.js" type="text/javascript"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="theme.js" type="text/javascript"></script>
+	<style type="text/css">
+		body, html {width:100%;height:100%;margin:0;font-family:"微软雅黑";}
+		/*#allmap{width:100%;height:500px;}*/
+		body{background-color:#ffffff;overflow-x: hidden;}
+		p{margin-left:5px; font-size:16px;}
+		textarea{width: 96%;padding: 2%;outline:none;font: 14px "微软雅黑";}
+		table{padding: 0 3% 0 3%;}
+		.headLine{
+			position: relative;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 50px;
+			background-color: #87CEFA;
+		}
+		.webName{
+			color: #ffffff;
+			font-size: 20px;
+			line-height: 50px;
+			margin-left: 4%;
+		}
+		.web-menu{
+			position: absolute;
+			line-height: 50px;
+			right: 200px;
+		}
+		.menuBtn{
+			line-height: 50px;
+			color: #ffffff;
+		}
+		.dropdown-menu{
+			margin: 0;
+			left: -40px;
+			text-align: center;
+		}
+		.content-title{
+			margin-top: 2%;
+			font-size: 18px;
+		}
+		.btn-file{height: 34px;}
+	</style>
+	<script type="text/javascript">   </script>
+</head>
+<body>
+<div class="headLine">
+	<!--<div class="row">-->
+		<span class="webName">考试系统学生端</span>
+		<span class="pull-right" style="line-height: 50px;margin-right:25px;color: #FFFFFF;">
+			<a href="http://me.musicren.com/" style="color: #FFFFFF;">退出</a>
+		</span>
+		<span class="pull-right" id="username" style="line-height: 50px;margin-right: 15px;color: #fff;">用户名</span>
+		
+	<!--</div>-->
+</div>
+<div class="text-center content-title">提交答卷</div>
+<div class="row">
+<div class="col-xs-3"></div>
+<div class="col-xs-6"> 
+	<form name="login" action="ME_Student.php" method="post" enctype="multipart/form-data" >
+		<div style="margin:1% 0;">上传MusicXML文件:</div>
+		<div class="row" style="margin-top: 15px;">
+			<div class="col-xs-12">
+			<input type="file" name="file" id="file" required="required"/>
+			<input type="submit" class="btn btn-info btn-block" id="submitBtn" style="font-size:16px;background-color: #87CEFA;margin-top: 15px;" name="submit" value="上传" />
+			</div>
+		</div>
+		<input type="hidden" name="studentid" id="studentid"><br />
+		<input type="hidden" name="schoolid" id="schoolid" ><br />
+		<input type="hidden" name="type" id="type" ><br />
+	</form>
+</div>
+<div class="col-xs-3"></div>
+</div>
+<!--二、成绩查询：
+	<input type="button" name="查询成绩" value="查询成绩" onclick="getScore()"><br /><br /> 
+三、	修改密码：<br />
+	<input type="password" name="oldPwd" id="oldPwd"><br />
+	<input type="password" name="newPwd1" id="newPwd1"><br />
+	<input type="password" name="newPwd2" id="newPwd2"><br />
+	<input type="button" name="修改" value="修改" onclick="changePWD()"><br />
+	-->
+</body>
+<script type="text/javascript"   src="/cgi-bin/commonJS.js"> </script>
+<script type="text/javascript"> 
+	$("#file").fileinput({
+		language: 'zh',
+        'theme': 'explorer',
+        'uploadUrl': '#',
+        showUpload: false, //是否显示上传按钮
+        showRemove : false,
+        overwriteInitial: false,
+        browseClass: "btn btn-default",//按钮样式  
+       	allowedFileExtensions: ['xml', 'XML']
+    });
+	
+	$('.file-drop-zone-title').text('拖拽文件到这里 …');
+	
+	
+    var tmp=getWebArguments();
+	var Student_ID=tmp[0];//alert(Student_ID);
+	var School_ID=tmp[1];//alert(School_ID);
+	//document.getElementById("term").value=getTerm();
+	document.getElementById('username').innerText = Student_ID;
+	document.getElementById("studentid").value=Student_ID;
+	document.getElementById("schoolid").value=School_ID;
+	document.getElementById("type").value=1;
+	/*function changePWD()
+	{
+		var pDate={};
+		pDate['type']=3;
+		pDate['Student_ID']=Student_ID;
+		pDate['School_ID']=School_ID;
+		pDate['oldPwd']=document.getElementById("oldPwd").value;
+		pDate['newPwd1']=document.getElementById("newPwd1").value;
+		pDate['newPwd2']=document.getElementById("newPwd2").value;
+		postDate=JSON.stringify(pDate);alert("postDate="+postDate);
+		var byUrl="ME_Student.php";
+		var xmlDoc;
+		getxmlDoc(byUrl,postDate,function(xmlDoc) { alert(xmlDoc);
+		});
+	}
+	function getScore()
+	{
+		var pDate={};
+		pDate['type']=2;
+		pDate['Student_ID']=Student_ID;
+		pDate['School_ID']=School_ID;
+		postDate=JSON.stringify(pDate);alert("postDate="+postDate);
+		var byUrl="ME_Student.php";
+		var xmlDoc;
+		getxmlDoc(byUrl,postDate,function(xmlDoc) { alert(xmlDoc);
+		});
+	}
+	*/
+</script>
+</html>
