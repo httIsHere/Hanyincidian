@@ -702,8 +702,8 @@
 					score = score- Math.abs((field[i][j]-field[1][j]))*mySelect[j];//每个项目1分
 				}
 			}
-			var newTd0 = newTr.insertCell();		
-			newTd0.innerHTML =score;
+			var newTd0 = newTr.insertCell();
+			newTd0.innerHTML = '<span class="myScoreTd">'+score+'</span>';
 			temp[0]=School_ID;
 			temp[1]=field[i][0];
 			temp[2]=getTerm();
@@ -754,13 +754,14 @@
 				if(j>1) 
 				score = score - Math.abs((field[i][j]-field[1][j]))*mySelect[j-2];
 			}
+			$(".myScoreTd").eq(i-1).text(score);
 			temp[0]=School_ID;
 			temp[1]=field[i][0];
 			temp[2]=getTerm();
 			temp[3]=score;
 			StudentScore[i-1]=temp;
 		}
-		alert(StudentScore);
+		console.log(StudentScore);
 	}
 	//通过获取下拉菜单，给mySelect数组重新赋值，2->2,-5->1/5,依此类推
 	function ScoreCountAgain(){
