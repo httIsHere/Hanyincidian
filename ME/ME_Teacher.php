@@ -290,7 +290,7 @@
 					{   
 						$compareResult=LengthOfATagCompareInTwoMusicXMLFiles('note','./xml/sn2.xml','./xml/sn2.xml');
  						$ret=runInsertUpdateDeleteSql("insert into ME_XMLFileInfo(School_ID,User_ID,Term ,XMLFileInfo_SaveName,XMLFileInfo_UploadName,XMLFileInfo_UploadTime,XMLFileInfo_Times) values('$schoolid','$studentid','$term2','$saveFileName','$uploadFilename','$mytime','$XMLFileInfo_Times')");
-						echo "<script language=javascript>alert('�ļ��ϴ��ɹ�!');history.back();</script>";	
+						echo "<script language=javascript>alert('上传成功!');history.back();</script>";	
 					}
 				}
 				else 	{ echo "<script language=javascript>alert('�ļ��ϴ�ʧ��!����ϵ����Ա��');history.back();</script>";} 
