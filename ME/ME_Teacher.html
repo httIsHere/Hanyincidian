@@ -211,11 +211,12 @@
 			<div class="content-title row">上传个别学生试卷</div>
 			<div class="row">
 				<div class="col-xs-3"></div>
-				<div class="form-group col-xs-6" style="display: flex;justify-content: flex-start;align-items: center;margin-top: 15px;">
+				<div class="form-group col-xs-6" style="display: flex;justify-content: space-between;align-items: center;margin-top: 15px;">
 					<strong>学生学号：</strong>
-					<input type="text" name="studentid" class="form-control" id="studentid" placeholder="学生学号" style="width: 50%;"/>
+					<input type="text" name="studentid" class="form-control" id="studentid" style="width: 30%;"/>
+					<strong>学年学期：</strong>
+					<input type="text" name="term2" class="form-control" style="width: 30%;"/>
 					<input type="hidden" name="type" value="10">
-					<input type="hidden" name="term2" id="term3">
 					<input type="hidden" name="schoolid" id="schoolid2" >
 				</div>
 			</div>
@@ -486,7 +487,6 @@
 		console.log(getTerm()+' '+getTestDate());
 		document.getElementById("term").value=getTerm();//一、上传学生名单
 		document.getElementById("term2").value=getTerm();//二、上传MusicXML文件
-		document.getElementById("term3").value=getTerm();//上传个别学生
 		document.getElementById("testdate").value=getTestDate();//一、上传学生名单件
 		document.getElementById("testStartTime").value='14:00';//一、上传学生名单
 		document.getElementById("testEndTime").value='16:00';//一、上传学生名单

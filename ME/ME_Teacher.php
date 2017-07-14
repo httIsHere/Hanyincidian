@@ -123,6 +123,7 @@
 		else echo "<script language=javascript>alert('ÎÄ¼þÉÏ´«Ê§°Ü!ÇëÈ·¶¨¡°Ñ§ÄêÑ§ÆÚ¡±ÊÇ·ñÕýÈ·£¿');history.back();</script>";
 	}
 	
+	//批改试卷
 	if($type==5)	
 	{	
 		$Teacher_ID=$part['Teacher_ID'];$School_ID=$part['School_ID'];$term=$part['term'];		
@@ -254,9 +255,10 @@
 //		echo 'studentid'.$studentid;
 		$schoolid=$_POST["schoolid"];
 //		echo 'schoolid'.$schoolid;
-		$sql="select Term from ME_STAssociate where School_ID='$schoolid' and Student_ID='$studentid'";
-		$ret=runSelectSql($sql);
-		$term2=$ret[0]['Term'];
+//		$sql="select Term from ME_STAssociate where School_ID='$schoolid' and Student_ID='$studentid'";
+//		$ret=runSelectSql($sql);
+//		$term2=$ret[0]['Term'];
+		$term2=$_POST['term'];
 //		echo $term2;
 	 	$sql="select XMLFileInfo_Times from ME_XMLFileInfo where User_ID='$studentid' and School_ID='$schoolid' and Term='$term2' order by XMLFileInfo_Times desc limit 1";
 		$ret=runSelectSql($sql);
