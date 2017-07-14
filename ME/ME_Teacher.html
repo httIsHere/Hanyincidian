@@ -213,11 +213,10 @@
 				<div class="col-xs-3"></div>
 				<div class="form-group col-xs-6" style="display: flex;justify-content: flex-start;align-items: center;margin-top: 15px;">
 					<strong>学生学号：</strong>
-					<input type="text" name="student-id" class="form-control" id="student-id" placeholder="学生学号" style="width: 50%;"/>
+					<input type="text" name="studentid" class="form-control" id="studentid" placeholder="学生学号" style="width: 50%;"/>
 					<input type="hidden" name="type" value="10">
-					<input type="hidden" name="term2" id="term2">
-					<input type="hidden" name="studentid" id="studentid">
-					<input type="hidden" name="schoolid" id="schoolid" >
+					<input type="hidden" name="term2" id="term3">
+					<input type="hidden" name="schoolid" id="schoolid2" >
 				</div>
 			</div>
 			<div class="row">
@@ -228,7 +227,7 @@
 				<div class="col-xs-3"></div>
 				<div class="col-xs-6">
 					<!--<p class="redText">注意：学生文件命名为学期+学校+学号，如2016-2017-2_1006_2016002110.xml</p>-->
-					<input type="file"  id="stuFile" />
+					<input type="file"  id="stuFile" name="stuFile"/>
 				</div>
 			</div>
 			<div class="row" style="margin-top: 15px;">
@@ -276,7 +275,7 @@
 			</div>
 			<!--成绩查看-->
 			<div class="scoreMan scoreLook">
-				<table class="table table-striped" id="stuScoreList" style="width: 50%; max-width: 210px;"></table>
+				<table class="table table-striped" id="stuScoreList" style="width: 50%; max-width: 480px;"></table>
 			</div>
 			<!--成绩下载-->
 			<!--</div>-->
@@ -487,6 +486,7 @@
 		console.log(getTerm()+' '+getTestDate());
 		document.getElementById("term").value=getTerm();//一、上传学生名单
 		document.getElementById("term2").value=getTerm();//二、上传MusicXML文件
+		document.getElementById("term3").value=getTerm();//上传个别学生
 		document.getElementById("testdate").value=getTestDate();//一、上传学生名单件
 		document.getElementById("testStartTime").value='14:00';//一、上传学生名单
 		document.getElementById("testEndTime").value='16:00';//一、上传学生名单
@@ -494,6 +494,7 @@
 		document.getElementById("teacherid").value=Teacher_ID;//二、上传MusicXML文件
 		document.getElementById("schoolid").value=School_ID;//二、上传MusicXML文件
 		document.getElementById("type").value=2;//二、上传MusicXML文件
+		document.getElementById("schoolid2").value=School_ID;//上传个别学生
 		//状态栏用户名显示
 		$('#username').text(Teacher_ID);
 		

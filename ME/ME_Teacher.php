@@ -251,12 +251,13 @@
 		if($studentid==''){
 			echo "<script language=javascript>alert('请输入学生学号');history.back();</script>";	
 		}
+//		echo 'studentid'.$studentid;
 		$schoolid=$_POST["schoolid"];
-		echo $schoolid;
+//		echo 'schoolid'.$schoolid;
 		$sql="select Term from ME_STAssociate where School_ID='$schoolid' and Student_ID='$studentid'";
 		$ret=runSelectSql($sql);
 		$term2=$ret[0]['Term'];
-		echo $term2;
+//		echo $term2;
 	 	$sql="select XMLFileInfo_Times from ME_XMLFileInfo where User_ID='$studentid' and School_ID='$schoolid' and Term='$term2' order by XMLFileInfo_Times desc limit 1";
 		$ret=runSelectSql($sql);
 		$XMLFileInfo_Times=$ret[0]['XMLFileInfo_Times']; 
@@ -265,30 +266,31 @@
 		else 
 			$XMLFileInfo_Times=1;
 			
-		if ($_FILES["file"]["error"]>0) 	{	
-			echo "Error: " . $_FILES["file"]["error"] . "<br />"; 		
+		if ($_FILES["stuFile"]["error"]>0) 	{	
+			echo "Error: " . $_FILES["stuFile"]["error"] . "<br />"; 		
 		}
 		else
-		{   $uploadFilename=$_FILES["file"]["name"];
-			echo $uploadFilename;
+		{   $uploadFilename=$_FILES["stuFile"]["name"];
+//			echo $uploadFilename;
+//			echo $_FILES['stuFile'];
 			$mytime=time();
 			$tempname=(string)$XMLFileInfo_Times;
 			if(strlen($tempname)==1) $tempname='00'.$tempname;
 			if(strlen($tempname)==2) $tempname='0'.$tempname;
 			$mypath='./xml/';
 			$saveFileName=$term2.'_'.$schoolid.'_s_'.$studentid.'_'.$tempname.'.xml';
- 			if(isMusicXMLFile($_FILES["file"]["tmp_name"])<1) {
+ 			if(isMusicXMLFile($_FILES["stuFile"]["tmp_name"])<1) {
  				// $compareResult=LengthOfATagCompareInTwoMusicXMLFiles('note','./xml/sn2.xml','./xml/sn21.xml');
- 				echo "<script language=javascript>alert('$compareResult');</script>";
+// 				echo "<script language=javascript>alert('$uploadFilename');</script>";
 			   	echo "<script language=javascript>alert('文件不是XML/MusicXML格式!');history.back();</script>";	
 			} 
 			else
 			{
-				if(move_uploaded_file($_FILES["file"]["tmp_name"],$mypath.$saveFileName))
+				if(move_uploaded_file($_FILES["stuFile"]["tmp_name"],$mypath.$saveFileName))
 				{ 			
 					if(file_exists($mypath.$saveFileName))
 					{   
-						$compareResult=LengthOfATagCompareInTwoMusicXMLFiles('note','./xml/sn2.xml','./xml/sn2.xml');
+//						$compareResult=LengthOfATagCompareInTwoMusicXMLFiles('note','./xml/sn2.xml','./xml/sn2.xml');
  						$ret=runInsertUpdateDeleteSql("insert into ME_XMLFileInfo(School_ID,User_ID,Term ,XMLFileInfo_SaveName,XMLFileInfo_UploadName,XMLFileInfo_UploadTime,XMLFileInfo_Times) values('$schoolid','$studentid','$term2','$saveFileName','$uploadFilename','$mytime','$XMLFileInfo_Times')");
 						echo "<script language=javascript>alert('上传成功!');history.back();</script>";	
 					}
