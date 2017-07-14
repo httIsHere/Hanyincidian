@@ -3,11 +3,13 @@
 	require_once(dirname(_FILE_).'../cgi-bin/CommonFunctionMusicTest.php');
 	header("Content-type: text/html; charset=utf-8");
 	ini_set('date.timezone','PRC'); //ÉèÖÃÊ±Çø
-	$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];$part=json_decode($postStr,TRUE);
+	$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+	$part=json_decode($postStr,TRUE);
 	
 	
 	$typefile=$_POST["type"];
 	$type=$part['type'];
+//	echo $typefile."+".$type;
 	if($type==0)
 	{	$sql="select ME_MusicKnowledgePoint_ID,ChineseName from ME_MusicKnowledgePoint";
 		$ret=runSelectSql($sql);
@@ -223,6 +225,7 @@
 		
 		
 	}
+	//保存成绩
 	if($type==9)	
 	{
 		$StudentScore=json_decode($part['StudentScore']);
@@ -294,7 +297,13 @@
 			}	
 		}
 	}
-	
-	//json_encode($studentNoPwd);
+	//成绩查看
+	if($type == 11){
+		$Teacher_ID=$part['Teacher_ID'];$School_ID=$part['School_ID'];$term=$part['term'];
+		$sql = "select Student_ID,Score,User_Name from (ME_Score join ME_User on ME_Score.School_ID = ME_User.School_ID) where ME_User.User_ID = ME_Score.Student_ID and ME_Score.School_ID='$School_ID' and ME_Score.Term='$term'";
+		//$sql = "select Student_ID,Score from ME_Score where School_ID='$School_ID' and Term='$term'";
+		$ret = runSelectSql($sql);
+		$replyStr = json_encode($ret);
+	}
 	echo $replyStr;
 ?>
