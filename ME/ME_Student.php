@@ -33,17 +33,18 @@
 		else
 		{   
 			$uploadFilename=$_FILES["file"]["name"];
-			echo $uploadFilename;
+//			echo $uploadFilename;
 			$mytime=time();
 			$tempname=(string)$XMLFileInfo_Times;
 			if(strlen($tempname)==1) $tempname='00'.$tempname;
 			if(strlen($tempname)==2) $tempname='0'.$tempname;
 			$mypath='./xml/';
 			$saveFileName=$term2.'_'.$schoolid.'_s_'.$studentid.'_'.$tempname.'.xml';
-			echo $_FILES["file"];
+//			echo $_FILES["file"];
  			if(isMusicXMLFile($_FILES["file"]["tmp_name"])<1) {
  				// $compareResult=LengthOfATagCompareInTwoMusicXMLFiles('note','./xml/sn2.xml','./xml/sn21.xml');
  				// echo "<script language=javascript>alert('$compareResult');</script>";
+// 				echo $_FILES["file"]["tmp_name"];
 			   	echo "<script language=javascript>alert('文件不是XML/MusicXML格式!');history.back();</script>";	
 			} 
 			else
