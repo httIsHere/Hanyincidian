@@ -9,10 +9,8 @@
 	else{   
 		$uploadFilename=$_FILES["file"]["name"];
 		$tag = $_POST['tag'];
-//		echo $tag;
 		$mypath='./xml/';
-		$saveFileName = time()."_".$uploadFilename;
-//		echo $saveFileName;
+		$saveFileName = time()."_".$tag."_file";
 		if(isMusicXMLFile($_FILES["file"]["tmp_name"])<1) {
 			echo "<script language=javascript>alert('不是XML/MusicXML¸文件!');history.back();</script>";	
 		} 
@@ -24,7 +22,13 @@
 					$replyStr = "标签出现次数为：".$compareResult;
    					echo "<script language=javascript>alert('$replyStr');history.back();</script>";
 				}
-			}  
+				else{
+					echo "<script language=javascript>alert('文件不存在！');history.back();</script>";
+				}
+			} 
+			else{
+				echo "<script language=javascript>alert('文件保存失败！');history.back();</script>";
+			} 
 		}
 	}
 ?>
