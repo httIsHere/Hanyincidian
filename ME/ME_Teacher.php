@@ -60,6 +60,13 @@
 		//downloadFile($myfilename);
 		$replyStr=$myfilename;
 	}
+	//已有学生名单
+	if($typefile == 12){
+		var $teacherid = $_POST['teacherid'];
+		$sql = "select Student_ID,User_Name, CourseName from (ME_STAssociate join ME_User on Student_ID = User_ID and ME_User.School_ID = ME_STAssociate.School_ID) where Teacher_ID = '$teacherid'";
+		$res = runSelectSql($sql);
+		$replyStr = json_encode($res);
+	}
 	//上传标准文件
 	if($typefile==2)
 	{						
@@ -197,16 +204,22 @@
 		//end:Òô·ûË³Ðò±È½Ï
 		$allInfo=array();$ttemp=array();
 		for($i=0;$i<count($temp);$i++)
-		{	$allInfo[$i][0]=$havePaperStudentList[$i][0];$allInfo[$i][1]=$havePaperStudentList[$i][1];
-			for($j=0;$j<count($temp[$i]);$j++)	{	$allInfo[$i][$j+2]=$temp[$i][$j];	$ttemp[$i][$j]=$temp[$i][$j];}
-			$allInfo[$i][count($temp[$i])+2]=$durationCompareResult[$i];$allInfo[$i][count($temp[$i])+3]=$pitchCompareResult[$i];
-			$ttemp[$i][count($temp[$i])]=$durationCompareResult[$i];$ttemp[$i][count($temp[$i])+1]=$pitchCompareResult[$i];
+		{	$allInfo[$i][0]=$havePaperStudentList[$i][0];
+			$allInfo[$i][1]=$havePaperStudentList[$i][1];
+			for($j=0;$j<count($temp[$i]);$j++)	{	
+				$allInfo[$i][$j+2]=$temp[$i][$j];	
+				$ttemp[$i][$j]=$temp[$i][$j];
+			}
+			$allInfo[$i][count($temp[$i])+2]=$durationCompareResult[$i];
+			$allInfo[$i][count($temp[$i])+3]=$pitchCompareResult[$i];
+			$ttemp[$i][count($temp[$i])]=$durationCompareResult[$i];
+			$ttemp[$i][count($temp[$i])+1]=$pitchCompareResult[$i];
 		}
-								logger('me_teacher','log/','Log','allInfo='.json_encode($allInfo));
+		logger('me_teacher','log/','Log','allInfo='.json_encode($allInfo));
 		for($i=2;$i<count($temp);$i++) //¸üÐÂÑ§ÉúXMLÎÄ¼þÐÅÏ¢±íµÄME_MusicKnowledgePointList×Ö¶Î£¬´æÈëÍ³¼ÆÐÅÏ¢
 		{
 			$oneStudentID=$allInfo[$i][0];$updateContent=json_encode($ttemp[$i]);$XMLFileInfo_SaveName=substr($xmlFileNameArray[$i-1],6);
-						logger('me_teacher','log/','Log','oneStudentID='.$oneStudentID.$updateContent.$XMLFileInfo_SaveName);	
+			logger('me_teacher','log/','Log','oneStudentID='.$oneStudentID.$updateContent.$XMLFileInfo_SaveName);	
 			$sql="update ME_XMLFileInfo set ME_MusicKnowledgePointList='$updateContent' where  User_ID='$oneStudentID' and School_ID='$School_ID' and Term='$term'  and  XMLFileInfo_SaveName='$XMLFileInfo_SaveName'";
 			$ret=runInsertUpdateDeleteSql($sql);
 		}
@@ -215,7 +228,7 @@
 		$myfile = fopen($myfilename, "w");
 		fwrite($myfile, $replyStr);
 		fclose($myfile);
-		//$replyStr=json_encode($xmlFileNameArray);
+//		$replyStr=json_encode($xmlFileNameArray);
 	}
 	
 	if($type==8)	

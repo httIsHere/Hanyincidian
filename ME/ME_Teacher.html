@@ -69,6 +69,9 @@
 			<li role="presentation" class="smenu e on choose" id="upStuName">
 				<a role="menuitem" tabindex="-1" href="#">上传学生名单</a>
 			</li>
+			<li role="presentation" class="smenu e" id="nowStuName">
+				<a role="menuitem" tabindex="-1" href="#">已有学生名单</a>
+			</li>
 		</ul>		
 	</div>
 	<div class="dropdown">
@@ -166,6 +169,17 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+		<!--已有学生名单-->
+		<div class="none showPage" id="nowStudent">
+			<div class="content-title row">现有学生名单</div>
+			<div class="row">
+				<div class="col-xs-2"></div>
+				<div class="col-xs-8">
+					<table class="table table-striped" id="myStudent" style="width:100%;">
+					</table>
 				</div>
 			</div>
 		</div>
@@ -279,7 +293,14 @@
 				<table class="table table-striped" id="stuScoreList" style="width: 50%; max-width: 480px;"></table>
 			</div>
 			<!--成绩下载-->
-			<!--</div>-->
+		</div>
+		<!--考场管理-->
+		<div class="none showPage" id="roomManagement">
+			<div class="content-title row">考场管理</div>
+			<div class="row" style="margin-top: 2%;">
+				<!--学生名单+机器-->
+				
+			</div>
 		</div>
 	</div>
 </div>
@@ -407,6 +428,16 @@
 			showPage.addClass('none');
 		}
 		$('#uploadStudent').removeClass('none');
+	})
+	//-----------------------------------
+	//---------已有学生名单-----------------
+	//-----------------------------------
+	$('#nowStuName').click(function(){
+		for(var i=0;i<showPage.length;i++){
+			showPage.addClass('none');
+		}
+		$('#nowStudent').removeClass('none');
+		getStudent();
 	})
 	//-----------------------------------
 	//---------上传MusicXML文件------------
@@ -557,16 +588,10 @@
 		pDate['studentlist']=document.getElementById("studentlist").value;
 		pDate['timestamp'] = Date.parse(new Date())/1000;
 		postDate=JSON.stringify(pDate);
-		alert("postDate="+postDate);
+//		alert("postDate="+postDate);
 		var byUrl="ME_Teacher.php";
 		var xmlDoc;
 		getxmlDoc(byUrl,postDate,function(xmlDoc) { 
-//			alert(xmlDoc);
-//			var t = document.getElementsByTagName("a"), len = t.length;
-//			for(var i=0;i<len;i++){
-//				t[i].href =xmlDoc;
-//				studentPwdFile = xmlDoc;
-//			}
 			if(xmlDoc.length>0) {
 				if(isIE() == false)
 					alert('学生信息已经上传，请马上下载学生密码表！');
@@ -577,6 +602,24 @@
 			}
 			else  alert('无信息回复，请联系管理员！');
  		});
+	}
+//	已有学生名单
+	function getStudent(){
+		$.ajax({
+			type:"post",
+			url:"ME_Teacher.php",
+			data:{
+				type:12,
+				teacherid:Teacher_ID
+			},
+			dataType:'json',
+			success: function(data){
+				console.log(data);
+			},
+			error:function(data){
+				console.log(data);
+			}
+		});
 	}
 	
 	//-------------------上传musicxml文件----------------
@@ -593,10 +636,6 @@
 		var newTr = MusicKnowledgePointList.insertRow();						
 		var newTd0 = newTr.insertCell(0);	
 		newTd0.innerHTML =schoolstr;
-	}
-	//上传标准文件
-	function uploadStandardFile(){
-
 	}
 	//获得当前学期数
 	function getTerm(){     
@@ -642,7 +681,7 @@
 		var byUrl="ME_Teacher.php";
 		var xmlDoc;
 		getxmlDoc(byUrl,postDate,function(xmlDoc) {
-//			alert(xmlDoc);
+			console.log(xmlDoc);
 			correctPapersResultList(xmlDoc);
 		});
 		

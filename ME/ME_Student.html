@@ -116,11 +116,24 @@
     var tmp=getWebArguments();
 	var Student_ID=tmp[0];//alert(Student_ID);
 	var School_ID=tmp[1];//alert(School_ID);
-	//document.getElementById("term").value=getTerm();
 	document.getElementById('username').innerText = Student_ID;
 	document.getElementById("studentid").value=Student_ID;
 	document.getElementById("schoolid").value=School_ID;
 	document.getElementById("type").value=1;
+	
+	$.ajax({
+		type:"post",
+		url:"ME_Student.php",
+		data:{
+			studentId: Student_ID,
+			type: 2
+		},
+		dataType:'text',
+		success:function(data){
+			console.log(data);
+		}
+	});
+	
 	/*function changePWD()
 	{
 		var pDate={};

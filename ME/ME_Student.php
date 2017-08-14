@@ -8,6 +8,59 @@
 	$typeUploadFile=$_POST["type"];
 	$type=$part['type'];
 		// echo $_FILES['file']['error'];
+	//get Mac Address
+class GetMacAddr{
+    public $returnArray = array();
+    public $macAddr;
+
+    function GetMacAddr($os_type=null){
+        if(is_null($os_type)) 
+            $os_type = PHP_OS;
+        switch (strtolower($os_type)){
+        case "linux":
+            $this->forLinux();
+            break;
+        case "solaris":
+            break;
+        case "unix":
+            break;
+        case "aix":
+            break;
+        default:
+            $this->forWindows();
+            break;
+        }
+        $temp_array = array();
+        foreach($this->returnArray as $value ){
+            if(preg_match("/[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f][:-]"."[0-9a-f][0-9a-f]/i", $value, $temp_array)){
+                $this->macAddr = $temp_array[0];
+                break;
+            }
+        }
+        unset($temp_array);
+        return $this->macAddr;
+    }
+
+    function forWindows(){
+        @exec("ipconfig /all", $this->returnArray);
+        if($this->returnArray)
+            return $this->returnArray;
+        else{
+            $ipconfig = $_SERVER["WINDIR"]."system32ipconfig.exe";
+            if (is_file($ipconfig))
+                @exec($ipconfig." /all", $this->returnArray);
+            else
+                @exec($_SERVER["WINDIR"]."systemipconfig.exe /all", $this->returnArray);
+            return $this->returnArray;
+        }
+    }
+
+    function forLinux(){
+        @exec("ifconfig -a", $this->returnArray);
+        return $this->returnArray;
+    }
+}	
+	
 	
 	if($typeUploadFile==1)
 	{
@@ -62,6 +115,12 @@
 			}	
 		}
  	}
+	//记录登录机器(而且只记录一次，先比较然后再保存)
+	if($_POST['type'] == 2){
+		//方法使用
+		$mac = new GetMacAddr(PHP_OS);
+		echo 'my mac address: '.$mac->macAddr;
+	}
 	
 /*	
 	if($type==2) //��ѯ�ɼ�
