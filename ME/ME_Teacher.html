@@ -1,866 +1,1107 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Teacher</title>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
-	<link rel="stylesheet" href="http://www.musicren.com/css/style.css">
-	<!--<link rel="stylesheet" href="../beMusic/weui.css">-->
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-	<link href="ME_Teacher_theme.css" media="all" rel="stylesheet" type="text/css"/>
-    <link href="fileinput.css" media="all" rel="stylesheet" type="text/css"/>
-    <link href="jquery.timepicker.css" media="all" rel="stylesheet" type="text/css" />
-    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="jquery.timepicker.js" type="text/javascript"></script>
-    <script src="fileinput.js" type="text/javascript"></script>
-    <script src="zh.js" type="text/javascript"></script>
-    <script src="ME_Teacher_theme.js" type="text/javascript"></script>
-    <script src="sweetalert.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="sweetalert.css">
-	<style type="text/css">
-		body, html {width:100%;height:100%;margin:0;font-family:"微软雅黑";}
-		/*#allmap{width:100%;height:500px;}*/
-		body{background-color:#fff;overflow-x: hidden;}
-		p{margin-left:5px; font-size:16px;}
-		textarea{width: 96%;padding: 2%;outline:none;font: 14px "微软雅黑";}
-		/*table{padding: 0 3% 0 3%;}*/
-		.container{margin: 0;}
-		.headLine { position: relative; top: 0; left: 0; right: 0; height: 50px; background-color: #87CEFA; }  
-		.webName { color: #ffffff; font-size: 20px; line-height: 50px; margin-left: 2%; }  
-		.web-menu { position: absolute; line-height: 50px; right: 200px; }  
-		.dropdown{display: inline-block;}
-		.menuBtn { line-height: 50px; color: #ffffff; margin-left: 20px;}
-		.menuBtn:hover{cursor: pointer;}  
-		#dropdownMenu1:hover > ul li a{display: block;}
-		#dropdownMenu2:hover > ul{display: block;}
-		.dropdown-menu { margin: 0; left: -40px; text-align: center; }  
-		.navBar { position: fixed; top: 50px; bottom: 0; left: 0; width: 200px; background: #87CEFA; }  
-		.navBar ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid #DDDDDD; }  
-		.navBar ul .pmenu { line-height: 50px;color: #FFFFFF; text-indent: 2em; font-size: 16px; }  
-		.navBar ul .pmenu:hover { background: #DDDDDD; font-weight: 600; }  
-		.navBar ul .smenu { display: none; color: #F0F0F0; height: 30px; line-height: 30px; text-indent: 4em; }  
-		.active { font-weight: 600; color: #1C94C4;}  
-		.on { display: block !important; background: #fff;}  
-		.navBar ul .smenu:hover { background: #E5E5E5; color: #fff; }  
-		.choose { background: #E5E5E5; color: #ffffff !important; }  
-		.contentBar { position: fixed; top: 50px; left: 0; right: 0px; bottom: 0px; background: #fff; overflow-y: scroll; overflow-x: hidden; }  
-		.none { display: none !important; }  
-		.content-title { margin-top: 2%; font-size: 20px; text-align: center; color: #333; }  
-		#studentlistPreview, #correctPapersResult ,#scoreResult, #stuScoreList{ text-align: center; border:2px solid #e0e0e0;}
-		.redText{color: red;font-size: 12px;}
-		#downStuPwdFile, .rightArrow{display: flex;justify-content: center;align-items: center;}
-		.btn-file{height: 34px;}
-		.scoreMan{width: 100%;position: absolute;top:15rem;left: 0;min-height: 70%;display: flex;display: -webkit-flex;display: -ms-flexbox;
-		flex-direction: row;flex-wrap: wrap;justify-content: center;
-		-webkit-transition: -webkit-transform 1000ms;transition: -webkit-transform 1000ms, transform 1000ms;-webkit-transform: scale(1);transform: scale(1);}
-		.scoreLook{left: 100%;}
-		.group{width: 48%;display: flex;justify-content: space-between;align-items: center;}
-		
-</style>
-	<!--<script type="text/javascript"></script>-->
-</head>
-<body>
-<div class="headLine">
-	<span class="webName">考试系统教师端</span>
-	<div class="dropdown">
-		<div type="button" class="menuBtn dropdown-toggle pmenu active" id="dropdownMenu0" data-toggle="dropdown">学生管理</div>
-		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="dropdown-menu0">
-			<li role="presentation" class="smenu e on choose" id="upStuName">
-				<a role="menuitem" tabindex="-1" href="#">上传学生名单</a>
-			</li>
-			<li role="presentation" class="smenu e" id="nowStuName">
-				<a role="menuitem" tabindex="-1" href="#">已有学生名单</a>
-			</li>
-		</ul>		
-	</div>
-	<div class="dropdown">
-		<div type="button" class="menuBtn dropdown-toggle pmenu" id="dropdownMenu1" data-toggle="dropdown">考试管理</div>
-		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="dropdown-menu1">
-			<li role="presentation" class="smenu e on" id="upMusXML">
-				<a role="menuitem" tabindex="-1" href="#">上传MusicXML文</a>
-			</li>
-			<li role="presentation" class="smenu e on" id="upSomeStu">
-				<a role="menuitem" tabindex="-1" href="#">上传个别学生试卷</a>
-			</li>
-			<li role="presentation" class="smenu e on" id="corPap">
-				<a role="menuitem" tabindex="-1" href="#">批改试卷</a>
-			</li>
-			<li role="presentation" class="smenu e on" id="graMan">
-				<a role="menuitem" tabindex="-1" href="#">成绩管理</a>
-			</li>
-		</ul>		
-	</div>
-	<div class="dropdown">
-		<div type="button" class="menuBtn dropdown-toggle pmenu" id="dropdownMenu2" data-toggle="dropdown">练习管理</div>
-		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2" id="dropdown-menu2">
-			<li role="presentation" class="smenu p">
-				<a role="menuitem" tabindex="-1" href="#">发布练习</a>
-			</li>
-		</ul>
-	</div>
-	<div class="dropdown">
-		<div type="button" class="menuBtn dropdown-toggle pmenu" id="dropdownMenu3" data-toggle="dropdown">考场管理</div>
-		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3" id="dropdown-menu0">
-			<li role="presentation" class="smenu e on" id="upStuName">
-				<a role="menuitem" tabindex="-1" href="#">学生考场管理</a>
-			</li>
-		</ul>		
-	</div>
-	<span class="pull-right" style="line-height: 50px; margin-right:25px;color: #FFFFFF;">
+
+	<head>
+		<title>Teacher</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="http://www.musicren.com/css/style.css">
+		<!--<link rel="stylesheet" href="../beMusic/weui.css">-->
+		<link rel="stylesheet" type="text/css" href="jquery.dataTables.min.css" />
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link href="ME_Teacher_theme.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="fileinput.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="jquery.timepicker.css" media="all" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="table.css"/>
+		<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="jquery.timepicker.js" type="text/javascript"></script>
+		<script src="fileinput.js" type="text/javascript"></script>
+		<script src="zh.js" type="text/javascript"></script>
+		<script src="ME_Teacher_theme.js" type="text/javascript"></script>
+		<script src="sweetalert.min.js"></script>
+		<script src="jquery.dataTables.min.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="sweetalert.css">
+		<style type="text/css">
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				font-family: "微软雅黑";
+			}
+			/*#allmap{width:100%;height:500px;}*/
+			
+			body {
+				background-color: #fff;
+				overflow-x: hidden;
+			}
+			
+			p {
+				margin-left: 5px;
+				font-size: 16px;
+			}
+			
+			textarea {
+				width: 96%;
+				padding: 2%;
+				outline: none;
+				font: 14px "微软雅黑";
+			}
+			/*table{padding: 0 3% 0 3%;}*/
+			
+			.container {
+				margin: 0;
+			}
+			
+			.headLine {
+				position: relative;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 50px;
+				background-color: #87CEFA;
+			}
+			
+			.webName {
+				color: #ffffff;
+				font-size: 20px;
+				line-height: 50px;
+				margin-left: 2%;
+			}
+			
+			.web-menu {
+				position: absolute;
+				line-height: 50px;
+				right: 200px;
+			}
+			
+			.dropdown {
+				display: inline-block;
+			}
+			
+			.menuBtn {
+				line-height: 50px;
+				color: #ffffff;
+				margin-left: 20px;
+			}
+			
+			.menuBtn:hover {
+				cursor: pointer;
+			}
+			
+			#dropdownMenu1:hover>ul li a {
+				display: block;
+			}
+			
+			#dropdownMenu2:hover>ul {
+				display: block;
+			}
+			
+			.dropdown-menu {
+				margin: 0;
+				left: -40px;
+				text-align: center;
+			}
+			
+			.navBar {
+				position: fixed;
+				top: 50px;
+				bottom: 0;
+				left: 0;
+				width: 200px;
+				background: #87CEFA;
+			}
+			
+			.navBar ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				border-top: 1px solid #DDDDDD;
+			}
+			
+			.navBar ul .pmenu {
+				line-height: 50px;
+				color: #FFFFFF;
+				text-indent: 2em;
+				font-size: 16px;
+			}
+			
+			.navBar ul .pmenu:hover {
+				background: #DDDDDD;
+				font-weight: 600;
+			}
+			
+			.navBar ul .smenu {
+				display: none;
+				color: #F0F0F0;
+				height: 30px;
+				line-height: 30px;
+				text-indent: 4em;
+			}
+			
+			.active {
+				font-weight: 600;
+				color: #1C94C4;
+			}
+			
+			.on {
+				display: block !important;
+				background: #fff;
+			}
+			
+			.navBar ul .smenu:hover {
+				background: #E5E5E5;
+				color: #fff;
+			}
+			
+			.choose {
+				background: #E5E5E5;
+				color: #ffffff !important;
+			}
+			
+			.contentBar {
+				position: fixed;
+				top: 50px;
+				left: 0;
+				right: 0px;
+				bottom: 0px;
+				background: #fff;
+				overflow-y: scroll;
+				overflow-x: hidden;
+			}
+			
+			.none {
+				display: none !important;
+			}
+			
+			.content-title {
+				margin-top: 2%;
+				font-size: 20px;
+				text-align: center;
+				color: #333;
+			}
+			
+			#studentlistPreview,
+			#correctPapersResult,
+			#scoreResult,
+			#stuScoreList,
+			#myStudent {
+				text-align: center;
+				border: 2px solid #e0e0e0;
+			}
+			
+			.redText {
+				color: red;
+				font-size: 12px;
+			}
+			
+			#downStuPwdFile,
+			.rightArrow {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.btn-file {
+				height: 34px;
+			}
+			
+			.scoreMan {
+				width: 100%;
+				position: absolute;
+				top: 15rem;
+				left: 0;
+				min-height: 70%;
+				display: flex;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				flex-direction: row;
+				flex-wrap: wrap;
+				justify-content: center;
+				-webkit-transition: -webkit-transform 1000ms;
+				transition: -webkit-transform 1000ms, transform 1000ms;
+				-webkit-transform: scale(1);
+				transform: scale(1);
+			}
+			
+			.scoreLook {
+				left: 100%;
+			}
+			
+			.group {
+				width: 48%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+		</style>
+		<!--<script type="text/javascript"></script>-->
+	</head>
+
+	<body>
+		<div class="headLine">
+			<span class="webName">考试系统教师端</span>
+			<div class="dropdown">
+				<div type="button" class="menuBtn dropdown-toggle pmenu active" id="dropdownMenu0" data-toggle="dropdown">学生管理</div>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="dropdown-menu0">
+					<li role="presentation" class="smenu e on choose" id="upStuName">
+						<a role="menuitem" tabindex="-1" href="#">上传学生名单</a>
+					</li>
+					<li role="presentation" class="smenu e" id="nowStuName">
+						<a role="menuitem" tabindex="-1" href="#">已有学生名单</a>
+					</li>
+				</ul>
+			</div>
+			<div class="dropdown">
+				<div type="button" class="menuBtn dropdown-toggle pmenu" id="dropdownMenu1" data-toggle="dropdown">考试管理</div>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="dropdown-menu1">
+					<li role="presentation" class="smenu e on" id="upMusXML">
+						<a role="menuitem" tabindex="-1" href="#">上传MusicXML文</a>
+					</li>
+					<li role="presentation" class="smenu e on" id="upSomeStu">
+						<a role="menuitem" tabindex="-1" href="#">上传个别学生试卷</a>
+					</li>
+					<li role="presentation" class="smenu e on" id="corPap">
+						<a role="menuitem" tabindex="-1" href="#">批改试卷</a>
+					</li>
+					<li role="presentation" class="smenu e on" id="graMan">
+						<a role="menuitem" tabindex="-1" href="#">成绩管理</a>
+					</li>
+				</ul>
+			</div>
+			<div class="dropdown">
+				<div type="button" class="menuBtn dropdown-toggle pmenu" id="dropdownMenu2" data-toggle="dropdown">练习管理</div>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2" id="dropdown-menu2">
+					<li role="presentation" class="smenu p">
+						<a role="menuitem" tabindex="-1" href="#">发布练习</a>
+					</li>
+				</ul>
+			</div>
+			<div class="dropdown">
+				<div type="button" class="menuBtn dropdown-toggle pmenu" id="dropdownMenu3" data-toggle="dropdown">考场管理</div>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3" id="dropdown-menu0">
+					<li role="presentation" class="smenu e on" id="upStuName">
+						<a role="menuitem" tabindex="-1" href="#">学生考场管理</a>
+					</li>
+				</ul>
+			</div>
+			<span class="pull-right" style="line-height: 50px; margin-right:25px;color: #FFFFFF;">
 		<a href="http://me.musicren.com/" style="color: #FFFFFF;">退出</a>
 	</span>
-	<span class="pull-right" id="username" style="line-height: 50px;margin-right: 15px;color: #fff;">用户名</span>
-</div>
-<div class="container">
-	<div class="contentBar">
-		<!--上传学生名单面板-->
-		<div class="showPage" id="uploadStudent">
-			<div class="content-title row">上传学生名单</div>
-			<div class="row">
-				<div class="col-xs-2"></div>
-				<div class="col-xs-8">
-					<div class="row" style="margin: 2%;">
-						<div class="col-xs-12" style="display: flex;justify-content: space-between;align-items: center;">
-							<div class="group">
-								<strong>学年学期</strong>
-								<input class="form-control" type="text" name="term" id="term" style="width: 75%;">
+			<span class="pull-right" id="username" style="line-height: 50px;margin-right: 15px;color: #fff;">用户名</span>
+		</div>
+		<div class="container">
+			<div class="contentBar">
+				<!--上传学生名单面板-->
+				<div class="showPage" id="uploadStudent">
+					<div class="content-title row">上传学生名单</div>
+					<div class="row">
+						<div class="col-xs-2"></div>
+						<div class="col-xs-8">
+							<div class="row" style="margin: 2%;">
+								<div class="col-xs-12" style="display: flex;justify-content: space-between;align-items: center;">
+									<div class="group">
+										<strong>学年学期</strong>
+										<input class="form-control" type="text" name="term" id="term" style="width: 75%;">
+									</div>
+									<div class="group">
+										<strong>课程名称</strong>
+										<input class="form-control" type="text" name="coursename" id="coursename" style="width: 75%;">
+									</div>
+								</div>
 							</div>
-							<div class="group">
-								<strong>课程名称</strong>
-								<input class="form-control" type="text" name="coursename" id="coursename" style="width: 75%;">
+							<div class="row" style="margin: 2%; margin-top: 0;">
+								<div class="col-xs-12" style="display: flex;justify-content: space-between;align-items: center;">
+									<div class="group">
+										<strong>考试日期</strong>
+										<input class="form-control" type="date" name="testdate" id="testdate" style="width: 75%;">
+									</div>
+									<div class="group">
+										<strong>考试时间</strong>
+										<input class="form-control" style="display: inline; width: 38%;" type="text" name="testStartTime" placeholder="开始时间" id="testStartTime"> ～
+										<input class="form-control" style="display: inline; width: 38%;" type="text" placeholder="结束时间" name="testEndTime" id="testEndTime">
+									</div>
+								</div>
+							</div>
+							<div class="row" style="margin: 2%; margin-top: 0;">
+								<div class="col-xs-12">
+									<div class="form-group">
+										<span><strong>学生名单</strong></span>
+										<p class="redText" style="margin: 1%;">注：每个学生包括学号与姓名，写一行，多少学生多少行;学号与姓名之间至少一个空格。如果原数据库中有相同学生信息，将覆盖这些信息。</p>
+										<textarea id="studentlist" class="form-control" rows="8"></textarea><br />
+									</div>
+									<div style="margin: 2% 0; text-align: center; display: flex;justify-content: space-between;">
+										<input type="button" class="btn btn-info" name="预览" value="预览学生名单" onclick="previewStudentlist()">
+										<div class="rightArrow">-></div>
+										<input type="button" class="btn btn-success" name="上传" value="确认无误，上传学生名单" onclick="uploadStudentList()">
+										<div class="rightArrow">-></div>
+										<a href="" class="btn btn-warning" id="downStuPwdFile">下载学生考试用密码表</a>
+										<!--<input target="_blank" type="button" class="btn btn-warning" name="上传" value="下载学生考试用密码表">-->
+										<!--<a href="" target="_blank">上传后，请立刻打开学生考试用密码表，密码只本次操作有效！</a>-->
+										<!--<input type="button" name="下载" value="下载学生考试用密码" onclick="downloadStudentPwd()">   -->
+									</div>
+									<div class="col-xs-12" style="margin: 0;padding: 0;">
+										<table class="table table-striped" id="studentlistPreview" style="width:100%;">
+										</table>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="row" style="margin: 2%; margin-top: 0;">
-						<div class="col-xs-12" style="display: flex;justify-content: space-between;align-items: center;">
-							<div class="group">
-							<strong>考试日期</strong>
-							<input class="form-control" type="date" name="testdate" id="testdate" style="width: 75%;">
-							</div>
-							<div class="group">
-							<strong>考试时间</strong>
-							<input class="form-control" style="display: inline; width: 38%;" type="text" name="testStartTime" placeholder="开始时间" id="testStartTime">
-							～
-							<input class="form-control" style="display: inline; width: 38%;" type="text" placeholder="结束时间" name="testEndTime" id="testEndTime">
-							</div>
+				</div>
+				<!--已有学生名单-->
+				<div class="none showPage" id="nowStudent">
+					<div class="content-title row">现有学生名单</div>
+					<div class="row">
+						<div class="col-xs-2"></div>
+						<div class="col-xs-8">
+							<table class="table table-striped" id="myStudent" style="width:100%;margin-top: 15px;">
+								<thead>
+									<th>学号</th>
+									<th>姓名</th>
+									<th>课程</th>
+									<th>学期</th>
+								</thead>
+								<tbody></tbody>
+							</table>
 						</div>
 					</div>
-					<div class="row" style="margin: 2%; margin-top: 0;">
-						<div class="col-xs-12">
+				</div>
+				<!--上传MusicXML文件-->
+				<div class="none showPage" id="uploadMusicXML">
+					<div class="content-title row">上传MusicXML文件</div>
+					<div class="row" style="margin-top: 2%;">
+						<div class="col-xs-3"></div>
+						<div class="col-xs-6">
+							<form name="login" action="ME_Teacher.php" method="post" enctype="multipart/form-data">
+								<div class="form-group" style="display: flex;justify-content: flex-start;align-items: center;">
+									<label>学年学期&nbsp;&nbsp;</label>
+									<input type="text" class="form-control" name="term2" id="term2" style="width: 50%;">
+								</div>
+								<div class="form-group">
+									<label>考查的知识点</label>
+									<table width="95%" border="0" id="MusicKnowledgePointList" style="width:100%;">
+									</table>
+								</div>
+								<div class="form-group">
+									<label>标准文件上传</label>
+									<input type="file" name="file" id="file" required="required" />
+								</div>
+								<div class="form-group">
+									<input type="submit" class="btn btn-warning btn-block" name="submit" value="上传" />
+								</div>
+								<div class="form-group">
+									<input type="hidden" class="form-control" name="teacherid" id="teacherid">
+								</div>
+								<div class="form-group">
+									<input type="hidden" class="form-control" name="schoolid" id="schoolid">
+								</div>
+								<div class="form-group">
+									<input type="hidden" class="form-control" name="type" id="type">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!--上传个人学生试卷-->
+				<div class="none showPage" id="uploadSomeStudent">
+					<form name="login" action="ME_Teacher.php" method="post" enctype="multipart/form-data">
+						<div class="content-title row">上传个别学生试卷</div>
+						<div class="row">
+							<div class="col-xs-3"></div>
+							<div class="form-group col-xs-6" style="display: flex;justify-content: space-between;align-items: center;margin-top: 15px;">
+								<strong>学生学号：</strong>
+								<input type="text" name="studentid" class="form-control" id="studentid" style="width: 30%;" />
+								<strong>学年学期：</strong>
+								<input type="text" name="term2" class="form-control" style="width: 30%;" />
+								<input type="hidden" name="type" value="10">
+								<input type="hidden" name="schoolid" id="schoolid2">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-3"></div>
+							<div class="col-xs-6"><strong>学生文件上传</strong></div>
+						</div>
+						<div class="row" style="margin-top: 15px;">
+							<div class="col-xs-3"></div>
+							<div class="col-xs-6">
+								<!--<p class="redText">注意：学生文件命名为学期+学校+学号，如2016-2017-2_1006_2016002110.xml</p>-->
+								<input type="file" id="stuFile" name="stuFile" />
+							</div>
+						</div>
+						<div class="row" style="margin-top: 15px;">
+							<div class="col-xs-3"></div>
+							<div class="col-xs-6">
+								<input type="submit" name="uploadStuFile" id="uploadStuFile" value="上传" class="btn btn-warning" style="width: 100%;" />
+							</div>
+						</div>
+					</form>
+				</div>
+				<!--批改试卷-->
+				<div class="none showPage" id="correctPapers">
+					<div class="content-title row">批改试卷</div>
+					<div class="row" style="margin-top: 2%;">
+						<div class="col-xs-2"></div>
+						<div class="col-xs-8">
 							<div class="form-group">
-								<span><strong>学生名单</strong></span>
-								<p class="redText" style="margin: 1%;">注：每个学生包括学号与姓名，写一行，多少学生多少行;学号与姓名之间至少一个空格。如果原数据库中有相同学生信息，将覆盖这些信息。</p>
-								<textarea id="studentlist" class="form-control" rows="8"></textarea><br />
+								<input type="button" name="correctPaper" class="btn btn-info" value="批改试卷" onclick="correctPapers()" style="width: 50%;margin-left:25%;">
 							</div>
-							<div style="margin: 2% 0; text-align: center; display: flex;justify-content: space-between;">
-								<input type="button" class="btn btn-info" name="预览" value="预览学生名单" onclick="previewStudentlist()">
-								<div class="rightArrow">-></div>
-								<input type="button" class="btn btn-success" name="上传" value="确认无误，上传学生名单" onclick="uploadStudentList()">
-								<div class="rightArrow">-></div>
-								<a href="" class="btn btn-warning" id="downStuPwdFile">下载学生考试用密码表</a>
-							<!--<input target="_blank" type="button" class="btn btn-warning" name="上传" value="下载学生考试用密码表">-->
-							<!--<a href="" target="_blank">上传后，请立刻打开学生考试用密码表，密码只本次操作有效！</a>-->
-							 <!--<input type="button" name="下载" value="下载学生考试用密码" onclick="downloadStudentPwd()">   -->
-							</div>
-							<div class="col-xs-12" style="margin: 0;padding: 0;">
-								<table class="table table-striped" id="studentlistPreview" style="width:100%;">
+							<div class="form-group">
+								<label>试卷批改结果</label>
+								<table class="table table-striped" id="correctPapersResult" style="width:100%;">
 								</table>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<!--已有学生名单-->
-		<div class="none showPage" id="nowStudent">
-			<div class="content-title row">现有学生名单</div>
-			<div class="row">
-				<div class="col-xs-2"></div>
-				<div class="col-xs-8">
-					<table class="table table-striped" id="myStudent" style="width:100%;">
-					</table>
-				</div>
-			</div>
-		</div>
-		<!--上传MusicXML文件-->
-		<div class="none showPage" id="uploadMusicXML">
-			<div class="content-title row">上传MusicXML文件</div>
-			<div class="row" style="margin-top: 2%;">
-				<div class="col-xs-3"></div>
-				<div class="col-xs-6">
-					<form name="login" action="ME_Teacher.php" method="post" enctype="multipart/form-data" >
-						<div class="form-group" style="display: flex;justify-content: flex-start;align-items: center;">
-					    	<label>学年学期&nbsp;&nbsp;</label>
-					    	<input type="text" class="form-control" name="term2" id="term2" style="width: 50%;">
-					 	</div>
-					 	<div class="form-group">
-					    	<label>考查的知识点</label>
-					    	<table width="95%" border="0" id="MusicKnowledgePointList" style="width:100%;">
-							</table>	
-					 	</div>
-				 		<div class="form-group">
-					    	<label>标准文件上传</label>
-					    	<input type="file" name="file" id="file" required="required"/>
-					 	</div>
-					 	<div class="form-group">
-					    	<input type="submit" class="btn btn-warning btn-block" name="submit" value="上传" />
-					 	</div>
-					 	<div class="form-group">
-					    	<input type="hidden" class="form-control" name="teacherid" id="teacherid">
-					 	</div>
-					 	<div class="form-group">
-					    	<input type="hidden" class="form-control" name="schoolid" id="schoolid" >
-					 	</div>
-					 	<div class="form-group">
-					    	<input type="hidden" class="form-control" name="type" id="type" >
-					 	</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!--上传个人学生试卷-->
-		<div class="none showPage" id="uploadSomeStudent">
-		<form name="login" action="ME_Teacher.php" method="post" enctype="multipart/form-data" >
-			<div class="content-title row">上传个别学生试卷</div>
-			<div class="row">
-				<div class="col-xs-3"></div>
-				<div class="form-group col-xs-6" style="display: flex;justify-content: space-between;align-items: center;margin-top: 15px;">
-					<strong>学生学号：</strong>
-					<input type="text" name="studentid" class="form-control" id="studentid" style="width: 30%;"/>
-					<strong>学年学期：</strong>
-					<input type="text" name="term2" class="form-control" style="width: 30%;"/>
-					<input type="hidden" name="type" value="10">
-					<input type="hidden" name="schoolid" id="schoolid2" >
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-3"></div>
-				<div class="col-xs-6"><strong>学生文件上传</strong></div>
-			</div>
-			<div class="row" style="margin-top: 15px;">
-				<div class="col-xs-3"></div>
-				<div class="col-xs-6">
-					<!--<p class="redText">注意：学生文件命名为学期+学校+学号，如2016-2017-2_1006_2016002110.xml</p>-->
-					<input type="file"  id="stuFile" name="stuFile"/>
-				</div>
-			</div>
-			<div class="row" style="margin-top: 15px;">
-				<div class="col-xs-3"></div>
-				<div class="col-xs-6">
-					<input type="submit" name="uploadStuFile" id="uploadStuFile" value="上传"  class="btn btn-warning" style="width: 100%;"/>
-				</div>
-			</div>
-		</form>
-		</div>
-		<!--批改试卷-->
-		<div class="none showPage" id="correctPapers">
-			<div class="content-title row">批改试卷</div>
-			<div class="row" style="margin-top: 2%;">
-				<div class="col-xs-2"></div>
-				<div class="col-xs-8">
-					<div class="form-group">
-						<input type="button" name="correctPaper" class="btn btn-info" value="批改试卷" onclick="correctPapers()" style="width: 50%;margin-left:25%;">
+				<!--成绩管理-->
+				<div class="none showPage" id="gradeManagement">
+					<div class="content-title row">成绩管理</div>
+					<div class="row" style="margin-top: 2%;">
+						<div class="col-xs-2"></div>
+						<div class="col-xs-8" style="display: flex; justify-content: space-between;align-items: center;">
+							<input type="button" class="btn btn-info" id="calScore" name="计算成绩" value="计算成绩" onclick="ScoreCount()">
+							<div>- ></div>
+							<input type="button" class="btn btn-success" id="lookScore" name="成绩查看" value="成绩查看" onclick="ScoreShow()">
+							<div>- ></div>
+							<a href="javascript:;" data-type="xls" class="btn btn-warning" style="display: flex;justify-content: center;align-items: center;" onclick="ScoreDownload(event)">成绩下载</a>
+						</div>
 					</div>
-					<div class="form-group">
-						<label>试卷批改结果</label>
-						<table class="table table-striped" id="correctPapersResult" style="width:100%;">
+					<!--<div class="mainScoreMan">-->
+					<!--计算成绩-->
+					<div class="scoreMan scoreCal">
+						<table class="table table-striped" id="scoreResult" style="width:98%;">
 						</table>
 					</div>
+					<!--成绩查看-->
+					<div class="scoreMan scoreLook">
+						<table class="table table-striped" id="stuScoreList" style="width: 50%; max-width: 480px;"></table>
+					</div>
+					<!--成绩下载-->
+				</div>
+				<!--考场管理-->
+				<div class="none showPage" id="roomManagement">
+					<div class="content-title row">考场管理</div>
+					<div class="row" style="margin-top: 2%;">
+						<!--学生名单+机器-->
+
+					</div>
 				</div>
 			</div>
 		</div>
-		<!--成绩管理-->
-		<div class="none showPage" id="gradeManagement">
-			<div class="content-title row">成绩管理</div>
-			<div class="row" style="margin-top: 2%;">
-				<div class="col-xs-2"></div>
-				<div class="col-xs-8" style="display: flex; justify-content: space-between;align-items: center;">
-					<input type="button" class="btn btn-info" id="calScore" name="计算成绩" value="计算成绩" onclick="ScoreCount()">
-					<input type="button" class="btn btn-success" id="lookScore" name="成绩查看" value="成绩查看" onclick="ScoreShow()">
-					<!--<input type="button" class="btn btn-warning" name="成绩下载" value="成绩下载" onclick="ScoreDownload()">-->
-					<a href="javascript:;" data-type="xls" class="btn btn-warning" style="display: flex;justify-content: center;align-items: center;" onclick="ScoreDownload(event)">成绩下载</a>
-				</div>
-			</div>
-			<!--<div class="mainScoreMan">-->
-			<!--计算成绩-->
-			<div class="scoreMan scoreCal">
-				<table class="table table-striped" id="scoreResult" style="width:98%;">
-				</table>
-			</div>
-			<!--成绩查看-->
-			<div class="scoreMan scoreLook">
-				<table class="table table-striped" id="stuScoreList" style="width: 50%; max-width: 480px;"></table>
-			</div>
-			<!--成绩下载-->
-		</div>
-		<!--考场管理-->
-		<div class="none showPage" id="roomManagement">
-			<div class="content-title row">考场管理</div>
-			<div class="row" style="margin-top: 2%;">
-				<!--学生名单+机器-->
-				
-			</div>
-		</div>
-	</div>
-</div>
-</body>
-<script type="text/javascript"   src="/cgi-bin/commonJS.js"> </script>
-<script src="Blob.js"></script>
-<script src="FileSaver.js"></script>
-<script src="tableExport.js"></script>
-<script type="text/javascript"> 
-	//--------------------基本页面初始化操作------------------
-	//-----------------------------------
-	//----初始化时间选择器-------------------
-	//-----------------------------------
-    $('#testStartTime').timepicker({
-    	defaultTime: '8:00',
- 		timeFormat: 'HH:mm',
-        minTime: new Date(0, 0, 0, 8, 0, 0),
-        maxTime: new Date(0, 0, 0, 15, 30, 0),
-        startHour: 6,
-        startTime: new Date(0, 0, 0, 8, 00, 0),
-        interval: 30
-    });
-    $('#testEndTime').timepicker({
-    	defaultTime: '8:30',
- 		timeFormat: 'HH:mm',
-        minTime: new Date(0, 0, 0, 8, 30, 0),
-        maxTime: new Date(0, 0, 0, 16, 0, 0),
-        startHour: 6,
-        startTime: new Date(0, 0, 0, 8, 30, 0),
-        interval: 30
-    });
-    //-----------------------------------
-	//----初始化文件选择器-------------------
-	//-----------------------------------
-	$("#file").fileinput({
-		language: 'zh',
-        'theme': 'explorer',
-        'uploadUrl': '#',
-        showUpload: false, //是否显示上传按钮
-        showRemove : false,
-        overwriteInitial: false,
-        dropZoneEnabled: false,//是否显示拖拽区域
-        browseClass: "btn btn-info",//按钮样式  
-       	allowedFileExtensions: ['xml']
-    });
-    $("#stuFile").fileinput({
-		language: 'zh',
-        'theme': 'explorer',
-        'uploadUrl': '#',
-        showUpload: false, //是否显示上传按钮
-        showRemove : false,
-        overwriteInitial: false,
-        dropZoneEnabled: false,//是否显示拖拽区域
-        browseClass: "btn btn-info",//按钮样式  
-       	allowedFileExtensions: ['xml']
-    });
-	$('.file-drop-zone-title').text('拖拽文件到这里 …');
-	//-----------------------------------
-	//----导航栏部分的转换操作----------------
-	//-----------------------------------
-	var e_smenu = $('.navBar ul .e');
-	var p_smenu = $('.navBar ul .p');
-	var smenu = $('.dropdown ul .smenu');
-	
-	$('#dropdownMenu0').click(function(){
-		for(var i=0;i<p_smenu.length;i++){
-			p_smenu[i].className = 'smenu p';
-		}
-		$('#dropdownMenu1').removeClass('active');
-		$('#dropdownMenu2').removeClass('active');
-		$('#dropdownMenu3').removeClass('active');
-		$('#dropdownMenu0').addClass('active');
-		for(var i=0;i<e_smenu.length;i++){
-			e_smenu[i].className = 'smenu e on';
-		}
-	});
-	$('#dropdownMenu1').click(function(){
-		for(var i=0;i<p_smenu.length;i++){
-			p_smenu[i].className = 'smenu p';
-		}
-		$('#dropdownMenu0').removeClass('active');
-		$('#dropdownMenu2').removeClass('active');
-		$('#dropdownMenu3').removeClass('active');
-		$('#dropdownMenu1').addClass('active');
-		for(var i=0;i<e_smenu.length;i++){
-			e_smenu[i].className = 'smenu e on';
-		}
-	});
-	$('#dropdownMenu2').click(function(){
-		for(var i=0;i<p_smenu.length;i++){
-			p_smenu[i].className = 'smenu p on';
-		}
-		$('#dropdownMenu1').removeClass('active');
-		$('#dropdownMenu0').removeClass('active');
-		$('#dropdownMenu3').removeClass('active');
-		$('#dropdownMenu2').addClass('active');
-		for(var i=0;i<e_smenu.length;i++){
-			e_smenu[i].className = 'smenu e';
-		}
-	});	
-	$('#dropdownMenu3').click(function(){
-		for(var i=0;i<p_smenu.length;i++){
-			p_smenu[i].className = 'smenu p on';
-		}
-		$('#dropdownMenu1').removeClass('active');
-		$('#dropdownMenu2').removeClass('active');
-		$('#dropdownMenu0').removeClass('active');
-		$('#dropdownMenu3').addClass('active');
-		for(var i=0;i<e_smenu.length;i++){
-			e_smenu[i].className = 'smenu e';
-		}
-	});
-	$('.smenu').click(function(){
-		for(var i=0;i<smenu.length;i++){
-			smenu.removeClass("choose");
-		}
-		$(this).addClass("choose");
-	});
-	//-----------------------------------
-	//---------上传学生名单-----------------
-	//-----------------------------------
-	var showPage = $('.showPage');
-	$('#upStuName').click(function(){
-		for(var i=0;i<showPage.length;i++){
-			showPage.addClass('none');
-		}
-		$('#uploadStudent').removeClass('none');
-	})
-	//-----------------------------------
-	//---------已有学生名单-----------------
-	//-----------------------------------
-	$('#nowStuName').click(function(){
-		for(var i=0;i<showPage.length;i++){
-			showPage.addClass('none');
-		}
-		$('#nowStudent').removeClass('none');
-		getStudent();
-	})
-	//-----------------------------------
-	//---------上传MusicXML文件------------
-	//-----------------------------------
-	$('#upMusXML').click(function(){
-		for(var i=0;i<showPage.length;i++){
-			showPage.addClass('none');
-		}
-		$('#uploadMusicXML').removeClass('none');
-	})
-	//-----------------------------------
-	//---------上传个别学生试卷------------
-	//-----------------------------------
-	$('#upSomeStu').click(function(){
-		for(var i=0;i<showPage.length;i++){
-			showPage.addClass('none');
-		}
-		$('#uploadSomeStudent').removeClass('none');
-	})
-	//-----------------------------------
-	//---------批改试卷------------
-	//-----------------------------------
-	$('#corPap').click(function(){
-		for(var i=0;i<showPage.length;i++){
-			showPage.addClass('none');
-		}
-		$('#correctPapers').removeClass('none');
-	})
-	//-----------------------------------
-	//---------成绩管理------------
-	//-----------------------------------
-	$('#graMan').click(function(){
-		for(var i=0;i<showPage.length;i++){
-			showPage.addClass('none');
-		}
-		$('#gradeManagement').removeClass('none');
-	})
-	$('#calScore').click(function(){
-		$('.scoreMan').css('-webkit-transform','translateX(0%)');
-		$('.scoreMan').css('transform','translateX(0%)');
-	});
-	$('#lookScore').click(function(){
-		$('.scoreMan').css('-webkit-transform','translateX(-100%)');
-		$('.scoreMan').css('transform','translateX(-100%)');
-	});
-	
-	//------------------------------功能操作-----------------------------------
-	var tmp=getWebArguments();
-	var Teacher_ID=tmp[0];//alert(Teacher_ID);
-	var School_ID=tmp[1];//alert(School_ID);
-	var cookID=getCookie('musicXMLExamUser');
-	var studentPwdFile;
-	var stuList = document.getElementById('studentlistPreview');
-	if(cookID!=Teacher_ID) history.back(); //需正常登录
-	
-	var mySelect=new Array(1000);
-	for(var i=0;i<1000;i++) 
-		mySelect[i]=1; //重新计算的时候，根据各个下拉菜单，进行赋值
- 	var StudentScore=[];
- 	var stuScoreRecord;
- 	//获取知识点
-   	var pDate={};
-	pDate['type']=0; 
-	postDate=JSON.stringify(pDate);//alert("postDate="+postDate);
-	var byUrl="ME_Teacher.php";
-	var xmlDoc;
-	getxmlDoc(byUrl,postDate,function(xmlDoc) {//alert(xmlDoc);
-		listshow(xmlDoc);
-	});
-	//初始化函数
-	init();
-	
-	function init(){
-		//一些初始数据
-		//学期显示当前学期
-		//日期显示当天
-		//时间默认为14：00-16：00
-		console.log(getTerm()+' '+getTestDate());
-		document.getElementById("term").value=getTerm();//一、上传学生名单
-		document.getElementById("term2").value=getTerm();//二、上传MusicXML文件
-		document.getElementById("testdate").value=getTestDate();//一、上传学生名单件
-		document.getElementById("testStartTime").value='14:00';//一、上传学生名单
-		document.getElementById("testEndTime").value='16:00';//一、上传学生名单
-		document.getElementById("studentlist").placeholder="2016120010011  张三\n2016120010020  李四\n2016120010023  王五";//一、上传学生名单
-		document.getElementById("teacherid").value=Teacher_ID;//二、上传MusicXML文件
-		document.getElementById("schoolid").value=School_ID;//二、上传MusicXML文件
-		document.getElementById("type").value=2;//二、上传MusicXML文件
-		document.getElementById("schoolid2").value=School_ID;//上传个别学生
-		//状态栏用户名显示
-		$('#username').text(Teacher_ID);
-		
-	}
-	//-------------------上传学生名单----------------
-	//预览学生名单
-	function previewStudentlist() {   
-		var temp=document.getElementById("studentlist").value; 
-		//alert(temp);
-		if(temp == ''){
-			alert('请输入学生名单！');
-			return;
-		}
-		var allStudent=temp.split("\n"); 
-		alert(allStudent.length+"位同学");
-		//原来的预览显示有一定问题，是追加内容
-		//每次都需要将表格重新渲染
-		stuList.innerHTML = '';
-		if(allStudent.length>0) {	
-			var newTr = studentlistPreview.insertRow();
-			var newTd0 = newTr.insertCell(0);	var newTd1 = newTr.insertCell(1);
-			newTd0.innerHTML ="学号";newTd1.innerHTML ="姓名";
-			for(var i=0;i<allStudent.length;i++)
-			{	if(allStudent[i].length>0)
-				{	
-					//分出学生的姓名和学号
-					var onestudent=(allStudent[i].trim()).split(/\s+/);
-					var newTr = studentlistPreview.insertRow();						
-					var newTd0 = newTr.insertCell(0);	var newTd1 = newTr.insertCell(1);
-					newTd0.innerHTML =onestudent[0];newTd1.innerHTML =onestudent[1];
-				}
+	</body>
+	<script type="text/javascript" src="/cgi-bin/commonJS.js">
+	</script>
+	<script src="Blob.js"></script>
+	<script src="FileSaver.js"></script>
+	<script src="tableExport.js"></script>
+	<script type="text/javascript">
+		//--------------------基本页面初始化操作------------------
+		//-----------------------------------
+		//----初始化时间选择器-------------------
+		//-----------------------------------
+		$('#testStartTime').timepicker({    
+			defaultTime: '8:00',
+			timeFormat: 'HH:mm',
+			minTime: new Date(0, 0, 0, 8, 0, 0),
+			maxTime: new Date(0, 0, 0, 15, 30, 0),
+			startHour: 6,
+			startTime: new Date(0, 0, 0, 8, 00, 0),
+			interval: 30
+		});
+		$('#testEndTime').timepicker({    
+			defaultTime: '8:30',
+			timeFormat: 'HH:mm',
+			minTime: new Date(0, 0, 0, 8, 30, 0),
+			maxTime: new Date(0, 0, 0, 16, 0, 0),
+			startHour: 6,
+			startTime: new Date(0, 0, 0, 8, 30, 0),
+			interval: 30
+		});
+		//-----------------------------------
+		//----初始化文件选择器-------------------
+		//-----------------------------------
+		$("#file").fileinput({
+			language: 'zh',
+			'theme': 'explorer',
+			'uploadUrl': '#',
+			showUpload: false, //是否显示上传按钮
+			showRemove: false,
+			overwriteInitial: false,
+			dropZoneEnabled: false, //是否显示拖拽区域
+			browseClass: "btn btn-info", //按钮样式  
+			allowedFileExtensions: ['xml']
+		});
+		$("#stuFile").fileinput({
+			language: 'zh',
+			'theme': 'explorer',
+			'uploadUrl': '#',
+			showUpload: false, //是否显示上传按钮
+			showRemove: false,
+			overwriteInitial: false,
+			dropZoneEnabled: false, //是否显示拖拽区域
+			browseClass: "btn btn-info", //按钮样式  
+			allowedFileExtensions: ['xml']
+		});
+		$('.file-drop-zone-title').text('拖拽文件到这里 …');
+
+		//-----------------------------------
+		//----导航栏部分的转换操作----------------
+		//-----------------------------------
+		var e_smenu = $('.navBar ul .e');
+		var p_smenu = $('.navBar ul .p');
+		var smenu = $('.dropdown ul .smenu');
+
+		$('#dropdownMenu0').click(function() {
+			for(var i = 0; i < p_smenu.length; i++) {
+				p_smenu[i].className = 'smenu p';
 			}
-		}
-		else alert("请输入学生名单");
-		return 1;
-	}
-	//判断浏览器是否为ie浏览器
-	function isIE() { //ie?
-    	if (!!window.ActiveXObject || "ActiveXObject" in window)
-       		return true;
-    	else
-       		return false;
-    }
-	//上传学生名单
-	function uploadStudentList(){
-		//课程名称是否为必须的		
-		var pDate={};
-		pDate['type']=1;
-		pDate['Teacher_ID']=Teacher_ID;
-		pDate['School_ID']=School_ID;
-		pDate['term']=document.getElementById("term").value;
-		pDate['testdate']=document.getElementById("testdate").value;
-		pDate['testStartTime']=document.getElementById("testStartTime").value;
-		pDate['testEndTime']=document.getElementById("testEndTime").value;
-		pDate['coursename']=document.getElementById("coursename").value;
-		if(pDate['coursename'] == ''){
-			alert('课程名称不能为空！');
-			return;
-		}
-		pDate['studentlist']=document.getElementById("studentlist").value;
-		pDate['timestamp'] = Date.parse(new Date())/1000;
-		postDate=JSON.stringify(pDate);
-//		alert("postDate="+postDate);
-		var byUrl="ME_Teacher.php";
+			$('#dropdownMenu1').removeClass('active');
+			$('#dropdownMenu2').removeClass('active');
+			$('#dropdownMenu3').removeClass('active');
+			$('#dropdownMenu0').addClass('active');
+			for(var i = 0; i < e_smenu.length; i++) {
+				e_smenu[i].className = 'smenu e on';
+			}
+		});
+		$('#dropdownMenu1').click(function() {
+			for(var i = 0; i < p_smenu.length; i++) {
+				p_smenu[i].className = 'smenu p';
+			}
+			$('#dropdownMenu0').removeClass('active');
+			$('#dropdownMenu2').removeClass('active');
+			$('#dropdownMenu3').removeClass('active');
+			$('#dropdownMenu1').addClass('active');
+			for(var i = 0; i < e_smenu.length; i++) {
+				e_smenu[i].className = 'smenu e on';
+			}
+		});
+		$('#dropdownMenu2').click(function() {
+			for(var i = 0; i < p_smenu.length; i++) {
+				p_smenu[i].className = 'smenu p on';
+			}
+			$('#dropdownMenu1').removeClass('active');
+			$('#dropdownMenu0').removeClass('active');
+			$('#dropdownMenu3').removeClass('active');
+			$('#dropdownMenu2').addClass('active');
+			for(var i = 0; i < e_smenu.length; i++) {
+				e_smenu[i].className = 'smenu e';
+			}
+		});
+		$('#dropdownMenu3').click(function() {
+			for(var i = 0; i < p_smenu.length; i++) {
+				p_smenu[i].className = 'smenu p on';
+			}
+			$('#dropdownMenu1').removeClass('active');
+			$('#dropdownMenu2').removeClass('active');
+			$('#dropdownMenu0').removeClass('active');
+			$('#dropdownMenu3').addClass('active');
+			for(var i = 0; i < e_smenu.length; i++) {
+				e_smenu[i].className = 'smenu e';
+			}
+		});
+		$('.smenu').click(function() {
+			for(var i = 0; i < smenu.length; i++) {
+				smenu.removeClass("choose");
+			}
+			$(this).addClass("choose");
+		});
+		//-----------------------------------
+		//---------上传学生名单-----------------
+		//-----------------------------------
+		var showPage = $('.showPage');
+		$('#upStuName').click(function() {
+			for(var i = 0; i < showPage.length; i++) {
+				showPage.addClass('none');
+			}
+			$('#uploadStudent').removeClass('none');
+		})
+		//-----------------------------------
+		//---------已有学生名单-----------------
+		//-----------------------------------
+		$('#nowStuName').click(function() {
+			for(var i = 0; i < showPage.length; i++) {
+				showPage.addClass('none');
+			}
+			$('#nowStudent').removeClass('none');
+			getStudent();
+		})
+		//-----------------------------------
+		//---------上传MusicXML文件------------
+		//-----------------------------------
+		$('#upMusXML').click(function() {
+			for(var i = 0; i < showPage.length; i++) {
+				showPage.addClass('none');
+			}
+			$('#uploadMusicXML').removeClass('none');
+		})
+		//-----------------------------------
+		//---------上传个别学生试卷------------
+		//-----------------------------------
+		$('#upSomeStu').click(function() {
+			for(var i = 0; i < showPage.length; i++) {
+				showPage.addClass('none');
+			}
+			$('#uploadSomeStudent').removeClass('none');
+		})
+		//-----------------------------------
+		//---------批改试卷------------
+		//-----------------------------------
+		$('#corPap').click(function() {
+			for(var i = 0; i < showPage.length; i++) {
+				showPage.addClass('none');
+			}
+			$('#correctPapers').removeClass('none');
+		})
+		//-----------------------------------
+		//---------成绩管理------------
+		//-----------------------------------
+		$('#graMan').click(function() {
+			for(var i = 0; i < showPage.length; i++) {
+				showPage.addClass('none');
+			}
+			$('#gradeManagement').removeClass('none');
+		})
+		$('#calScore').click(function() {
+			$('.scoreMan').css('-webkit-transform', 'translateX(0%)');
+			$('.scoreMan').css('transform', 'translateX(0%)');
+		});
+		$('#lookScore').click(function() {
+			$('.scoreMan').css('-webkit-transform', 'translateX(-100%)');
+			$('.scoreMan').css('transform', 'translateX(-100%)');
+		});
+
+		//------------------------------功能操作-----------------------------------
+		var tmp = getWebArguments();
+		var Teacher_ID = tmp[0]; //alert(Teacher_ID);
+		var School_ID = tmp[1]; //alert(School_ID);
+		var cookID = getCookie('musicXMLExamUser');
+		var studentPwdFile;
+		var stuList = document.getElementById('studentlistPreview');
+		if(cookID != Teacher_ID) history.back(); //需正常登录
+
+		var mySelect = new Array(1000);
+		for(var i = 0; i < 1000; i++)
+			mySelect[i] = 1; //重新计算的时候，根据各个下拉菜单，进行赋值
+		var StudentScore = [];
+		var stuScoreRecord;
+		//获取知识点
+		var pDate = {};
+		pDate['type'] = 0;
+		postDate = JSON.stringify(pDate); //alert("postDate="+postDate);
+		var byUrl = "ME_Teacher.php";
 		var xmlDoc;
-		getxmlDoc(byUrl,postDate,function(xmlDoc) { 
-			if(xmlDoc.length>0) {
-				if(isIE() == false)
-					alert('学生信息已经上传，请马上下载学生密码表！');
+		getxmlDoc(byUrl, postDate, function(xmlDoc) { //alert(xmlDoc);
+			listshow(xmlDoc);
+		});
+		//初始化函数
+		init();
+
+		function init() {
+			//一些初始数据
+			//学期显示当前学期
+			//日期显示当天
+			//时间默认为14：00-16：00
+			console.log(getTerm() + ' ' + getTestDate());
+			document.getElementById("term").value = getTerm(); //一、上传学生名单
+			document.getElementById("term2").value = getTerm(); //二、上传MusicXML文件
+			document.getElementById("testdate").value = getTestDate(); //一、上传学生名单件
+			document.getElementById("testStartTime").value = '14:00'; //一、上传学生名单
+			document.getElementById("testEndTime").value = '16:00'; //一、上传学生名单
+			document.getElementById("studentlist").placeholder = "2016120010011  张三\n2016120010020  李四\n2016120010023  王五"; //一、上传学生名单
+			document.getElementById("teacherid").value = Teacher_ID; //二、上传MusicXML文件
+			document.getElementById("schoolid").value = School_ID; //二、上传MusicXML文件
+			document.getElementById("type").value = 2; //二、上传MusicXML文件
+			document.getElementById("schoolid2").value = School_ID; //上传个别学生
+			//状态栏用户名显示
+			$('#username').text(Teacher_ID);
+
+		}
+		//-------------------上传学生名单----------------
+		//预览学生名单
+		function previewStudentlist() {
+			var temp = document.getElementById("studentlist").value;
+			//alert(temp);
+			if(temp == '') {
+				alert('请输入学生名单！');
+				return;
+			}
+			var allStudent = temp.split("\n");
+			alert(allStudent.length + "位同学");
+			//原来的预览显示有一定问题，是追加内容
+			//每次都需要将表格重新渲染
+			stuList.innerHTML = '';
+			if(allStudent.length > 0) {
+				var newTr = studentlistPreview.insertRow();
+				var newTd0 = newTr.insertCell(0);
+				var newTd1 = newTr.insertCell(1);
+				newTd0.innerHTML = "学号";
+				newTd1.innerHTML = "姓名";
+				for(var i = 0; i < allStudent.length; i++) {
+					if(allStudent[i].length > 0) {
+						//分出学生的姓名和学号
+						var onestudent = (allStudent[i].trim()).split(/\s+/);
+						var newTr = studentlistPreview.insertRow();
+						var newTd0 = newTr.insertCell(0);
+						var newTd1 = newTr.insertCell(1);
+						newTd0.innerHTML = onestudent[0];
+						newTd1.innerHTML = onestudent[1];
+					}
+				}
+			} else alert("请输入学生名单");
+			return 1;
+		}
+		//判断浏览器是否为ie浏览器
+		function isIE() { //ie?
+			    
+			if(!!window.ActiveXObject || "ActiveXObject" in window)        return true;    
+			else        return false;    
+		}
+		//上传学生名单
+		function uploadStudentList() {
+			//课程名称是否为必须的		
+			var pDate = {};
+			pDate['type'] = 1;
+			pDate['Teacher_ID'] = Teacher_ID;
+			pDate['School_ID'] = School_ID;
+			pDate['term'] = document.getElementById("term").value;
+			pDate['testdate'] = document.getElementById("testdate").value;
+			pDate['testStartTime'] = document.getElementById("testStartTime").value;
+			pDate['testEndTime'] = document.getElementById("testEndTime").value;
+			pDate['coursename'] = document.getElementById("coursename").value;
+			if(pDate['coursename'] == '') {
+				alert('课程名称不能为空！');
+				return;
+			}
+			pDate['studentlist'] = document.getElementById("studentlist").value;
+			pDate['timestamp'] = Date.parse(new Date()) / 1000;
+			postDate = JSON.stringify(pDate);
+			//		alert("postDate="+postDate);
+			var byUrl = "ME_Teacher.php";
+			var xmlDoc;
+			getxmlDoc(byUrl, postDate, function(xmlDoc) {
+				console.log(xmlDoc);
+				//			var data = eval(xmlDoc);
+				//			var data = xmlDoc;
+				if(data.length > 0) {
+					if(isIE() == false)
+						alert('学生信息已经上传，请马上下载学生密码表！');
+					else
+						alert('学生信息已经上传，暂不支持ie下载请选用其他浏览器下载学生密码表！');
+					document.getElementById('downStuPwdFile').href = data;
+					document.getElementById('downStuPwdFile').download = data;
+				} else alert('无信息回复，请联系管理员！');
+			});
+		}
+		//	已有学生名单
+		function getStudent() {
+			$.ajax({
+				type: "post",
+				url: "ME_Teacher.php",
+				data: {
+					type: 12,
+					teacherid: Teacher_ID
+				},
+				dataType: 'json',
+				success: function(data) {
+					console.log(data);
+					var array = new Array();
+					var students = eval(data);
+					var body = '';
+					for(var i = 0; i < students.length; i++) {
+						var info = new Array(4);		
+						info[0] = students[i].Student_ID;
+						info[1] = students[i].User_Name;
+						info[2] = students[i].CourseName;
+						info[3] = students[i].Term;
+//						body += `<tr><td>${students[i].Student_ID}</td><td>${students[i].User_Name}</td>`;
+//						body += `<td>${students[i].CourseName}</td><td>${students[i].Term}</td></tr>`;
+						array[i] = info;
+					}
+					//				$('#myStudent tbody').html(body);
+					//---------------------------------
+					//--------初始化分页学生表格--------
+					//---------------------------------
+					$('#myStudent').dataTable().fnDestroy();
+					$('#myStudent').dataTable({
+						data: array,
+						"sortable": false, //是否启用排序
+						"bLengthChange": true, //改变每页显示数据数量
+						"ordering": true,
+						"bAutoWidth": false,
+						"bProcessing": true,
+						"iDisplayLength": 10,
+						"order": [
+							[3, "desc"]
+						],
+						"columnDefs": [ {
+      						targets: [ 3 ],
+      						orderData: [ 3, 2 ]  //如果第一列进行排序，有相同数据则按照第二列顺序排列
+    					}],
+						"oLanguage": {
+							"sLengthMenu": "每页显示 _MENU_ 个学生",
+							"sZeroRecords": "抱歉， 没有找到学生",
+							"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 个学生",
+							"sInfoEmpty": "没有学生数据",
+							"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+							"sSearch": "搜索",
+							"oPaginate": {
+								"sFirst": "首页",
+								"sPrevious": "前一页",
+								"sNext": "后一页",
+								"sLast": "尾页"
+							},
+							"sZeroRecords": "无相应学生，可到上传学生名单内进行添加学生",
+							"bStateSave": true //保存状态到cookie *************** 很重要
+						}
+					});
+				}
+			});
+		}
+
+		//-------------------上传musicxml文件----------------
+		//显示知识点
+		function listshow(xmlDoc) {
+			var field = eval(xmlDoc);
+			schoolstr = ""; //alert(field.length);
+			for(var i = 0; i < field.length; i++) {
+				pwid = field[i].ME_MusicKnowledgePoint_ID;
+				cn = field[i].ChineseName; // alert(pwid);
+				schoolstr = schoolstr + '<input type="checkbox" name="KnowledgePointList[] "';
+				if(i < 11) schoolstr = schoolstr + 'checked="checked"';
+				schoolstr = schoolstr + ' value="' + pwid + '" />' + cn + '   ';
+			}
+			var newTr = MusicKnowledgePointList.insertRow();
+			var newTd0 = newTr.insertCell(0);
+			newTd0.innerHTML = schoolstr;
+		}
+		//获得当前学期数
+		function getTerm() {
+			var oneterm = '2016-2017-2';
+			var myDate = new Date();
+			var oneyear = myDate.getFullYear(); //获取完整的年份(4位,1970-????)
+			var onemonth = myDate.getMonth();
+			onemonth = parseInt(onemonth); //获取当前月份(0-11,0代表1月)
+			if(onemonth < 7) {
+				if(onemonth > 1)
+					oneterm = String(oneyear - 1) + '-' + String(oneyear) + '-2';
 				else
-					alert('学生信息已经上传，暂不支持ie下载请选用其他浏览器下载学生密码表！');
-				document.getElementById('downStuPwdFile').href = xmlDoc;
-				document.getElementById('downStuPwdFile').download = xmlDoc;
+					oneterm = String(oneyear - 1) + '-' + String(oneyear) + '-1';
+			} else {
+				oneterm = String(oneyear) + '-' + String(oneyear + 1) + '-1';
 			}
-			else  alert('无信息回复，请联系管理员！');
- 		});
-	}
-//	已有学生名单
-	function getStudent(){
-		$.ajax({
-			type:"post",
-			url:"ME_Teacher.php",
-			data:{
-				type:12,
-				teacherid:Teacher_ID
-			},
-			dataType:'json',
-			success: function(data){
-				console.log(data);
-			},
-			error:function(data){
-				console.log(data);
-			}
-		});
-	}
-	
-	//-------------------上传musicxml文件----------------
-	//显示知识点
-	function listshow(xmlDoc) {	
-		var field=eval(xmlDoc); 
-		schoolstr="";//alert(field.length);
-		for(var i=0;i<field.length;i++){
-			pwid=field[i].ME_MusicKnowledgePoint_ID; cn=field[i].ChineseName;// alert(pwid);
-			schoolstr=schoolstr+ '<input type="checkbox" name="KnowledgePointList[] "';
-			if(i<11) schoolstr=schoolstr+ 'checked="checked"';
-			schoolstr=schoolstr+ ' value="'+pwid+'" />'+cn+'   ';
+			return oneterm;
 		}
-		var newTr = MusicKnowledgePointList.insertRow();						
-		var newTd0 = newTr.insertCell(0);	
-		newTd0.innerHTML =schoolstr;
-	}
-	//获得当前学期数
-	function getTerm(){     
-	  	var oneterm='2016-2017-2';
-		var myDate = new Date();
-		var oneyear=myDate.getFullYear();  //获取完整的年份(4位,1970-????)
-		var onemonth=myDate.getMonth(); 
-		onemonth=parseInt(onemonth);  //获取当前月份(0-11,0代表1月)
-		if(onemonth<7) { 
-			if(onemonth>1) 
-				oneterm=String(oneyear-1)+'-'+String(oneyear)+'-2';
-		  	else 
-		  		oneterm=String(oneyear-1)+'-'+String(oneyear)+'-1';
+		//获得当前的日期
+		function getTestDate() {
+			//时间格式化补0
+			var zeroize = function(value, length) {
+				if(!length) length = 2;
+				value = String(value);
+				for(var i = 0, zeros = ''; i < (length - value.length); i++) {
+					zeros += '0';
+				}
+				return zeros + value;
+			};
+			var myDate = new Date();
+			return myDate.getFullYear() + "-" + zeroize(myDate.getMonth() + 1) + "-" + zeroize(myDate.getDate());
 		}
-		else {oneterm=String(oneyear)+'-'+String(oneyear+1)+'-1';	  }
-		return oneterm;
-	}
-	//获得当前的日期
-	function getTestDate(){
-		//时间格式化补0
-		var zeroize = function (value, length){
-            if (!length) length = 2;
-            value = String(value);
-            for (var i = 0, zeros = ''; i < (length - value.length); i++)
-            {
-                zeros += '0';
-            }
-            return zeros + value;
-        };
-		var myDate = new Date();
-		return myDate.getFullYear()+"-"+zeroize(myDate.getMonth()+1)+"-"+zeroize(myDate.getDate());
-	}
-	//----------------------批改试卷--------------------------
-	//四、批改试卷
-	function correctPapers() {  
-		var pDate={};
-		pDate['type']=5; 
-		pDate['Teacher_ID']=Teacher_ID;
-		pDate['School_ID']=School_ID;
-		pDate['term']= getTerm();
-		postDate=JSON.stringify(pDate);
-//		alert("postDate="+postDate);
-		var byUrl="ME_Teacher.php";
-		var xmlDoc;
-		getxmlDoc(byUrl,postDate,function(xmlDoc) {
-			console.log(xmlDoc);
-			correctPapersResultList(xmlDoc);
-		});
-		
-	}
-	//显示批改结果
-	function correctPapersResultList(xmlDoc){
-		$('#correctPapersResult').html('');
-		var field=eval(xmlDoc); //alert(field.length);
-		for(var i=0;i<field.length;i++){   
-			var newTr = correctPapersResult.insertRow();						
-			for(var j=0;j<field[i].length;j++)	{
-				var newTd0 = newTr.insertCell();		
-				newTd0.innerHTML =field[i][j];	
-			}
-		}		
-	}
-	//----------------------成绩计算------------------------
-	function scoreList(xmlDoc){
-		var field=eval(xmlDoc); //alert(field.length);
-		$('#scoreResult').html('');
-		var myselect = '<select class="form-control" class="myselect">'+       
-					   '<option value="1">1</option>'+    
-					   '<option value="2">2</option>'+      
-					   '<option value="-2">0.5</option>'+      
-					   '<option value="3">3</option>'+
-					   '<option value="-3">1/3</option>'+
-					   '<option value="4">4</option>'+
-					   '<option value="-4">1/4</option>'+
-					   '<option value="5">5</option>'+
-					   '<option value="-5">1/5</option>'+
-					   '<option value="-10">1/10</option>'+   
-					   '</select>';
-		var newTr = scoreResult.insertRow();
-		for(var j=0;j<field[0].length-2;j++)	{	
-			var newTd0 = newTr.insertCell();	
-			newTd0.innerHTML =field[0][j];	
+		//----------------------批改试卷--------------------------
+		//四、批改试卷
+		function correctPapers() {
+			var pDate = {};
+			pDate['type'] = 5;
+			pDate['Teacher_ID'] = Teacher_ID;
+			pDate['School_ID'] = School_ID;
+			pDate['term'] = getTerm();
+			postDate = JSON.stringify(pDate);
+			//		alert("postDate="+postDate);
+			var byUrl = "ME_Teacher.php";
+			var xmlDoc;
+			getxmlDoc(byUrl, postDate, function(xmlDoc) {
+				//			console.log(xmlDoc);
+				correctPapersResultList(xmlDoc);
+			});
+
 		}
-		var newTd0 = newTr.insertCell();		
-		newTd0.innerHTML ='<input type="button" name="保存" value="保存" class="btn btn-primary" onclick="ScoreSave()">';
-		var newTr = scoreResult.insertRow();
-		for(var j=0;j<field[0].length-2;j++)	{	
-			var newTd0 = newTr.insertCell();
-			if(j == 0)
-				newTd0.innerHTML = '分值';
-			if(j>1) 
-				newTd0.innerHTML = myselect;
-		}
-		var newTd0 = newTr.insertCell();		
-		newTd0.innerHTML ='<input type="button" name="重新计算" value="重新计算" class="btn btn-primary" onclick="ScoreCountAgain()">';
-		
-//		var newTr = scoreResult.insertRow();
-//		var newTd0 = newTr.insertCell();
-//		newTd0.innerHTML = '教师标准';
-		//真正的计算过程
-		for(var i=1;i<field.length;i++){   
-			var temp=new Array();
-			var newTr = scoreResult.insertRow();	
-			var score=100;//满分设置为100
-			console.log(`score:${field[i]}`);
-			for(var j=0;j<field[i].length-2;j++)	{	
-				var newTd0 = newTr.insertCell();		
-				newTd0.innerHTML =field[i][j];
-				if(j>1) {
-					score = score- Math.abs((field[i][j]-field[1][j]))*mySelect[j];//每个项目1分
+		//显示批改结果
+		function correctPapersResultList(xmlDoc) {
+			$('#correctPapersResult').html('');
+			var field = eval(xmlDoc); //alert(field.length);
+			for(var i = 0; i < field.length; i++) {
+				var newTr = correctPapersResult.insertRow();
+				for(var j = 0; j < field[i].length; j++) {
+					var newTd0 = newTr.insertCell();
+					newTd0.innerHTML = field[i][j];
 				}
 			}
+		}
+		//----------------------成绩计算------------------------
+		function scoreList(xmlDoc) {
+			var field = eval(xmlDoc); //alert(field.length);
+			$('#scoreResult').html('');
+			var myselect = '<select class="form-control" class="myselect">' +
+				'<option value="1">1</option>' +
+				'<option value="2">2</option>' +
+				'<option value="-2">0.5</option>' +
+				'<option value="3">3</option>' +
+				'<option value="-3">1/3</option>' +
+				'<option value="4">4</option>' +
+				'<option value="-4">1/4</option>' +
+				'<option value="5">5</option>' +
+				'<option value="-5">1/5</option>' +
+				'<option value="-10">1/10</option>' +
+				'</select>';
+			var newTr = scoreResult.insertRow();
+			for(var j = 0; j < field[0].length - 2; j++) {
+				var newTd0 = newTr.insertCell();
+				newTd0.innerHTML = field[0][j];
+			}
 			var newTd0 = newTr.insertCell();
-			newTd0.innerHTML = '<span class="myScoreTd">'+score+'</span>';
-			temp[0]=School_ID;
-			temp[1]=field[i][0];
-			temp[2]=getTerm();
-			temp[3]=score;
-			StudentScore[i-1]=temp;
-//			alert(StudentScore[i-1][1]);
-		}
-//		var newTr = scoreResult.insertRow();
-//		var newTd0 = newTr.insertCell();
-//		newTd0.innerHTML = '学生成绩';
-	}
-	//获得学生批改记录并进行计算
-	function ScoreCount(){
-		var pDate={};
-		pDate['type']=8; 
-		pDate['Teacher_ID']=Teacher_ID;
-		pDate['School_ID']=School_ID;
-		pDate['term']= getTerm();
-		postDate=JSON.stringify(pDate);
-		var byUrl="ME_Teacher.php";
-		var xmlDoc;
-		getxmlDoc(byUrl,postDate,function(xmlDoc) {
-//			alert(xmlDoc);
-			stuScoreRecord = eval(xmlDoc);
-			console.log(stuScoreRecord);
-			scoreList(xmlDoc);
-		});
-	}
-	//保存成绩
-	function ScoreSave(){
-		var pDate={};
-		pDate['type']=9; 
-		pDate['StudentScore']=JSON.stringify(StudentScore);
-		postDate=JSON.stringify(pDate);
-//		alert("postDate="+postDate);
-		var byUrl="ME_Teacher.php";
-		var xmlDoc;
-		getxmlDoc(byUrl,postDate,function(xmlDoc) {
-//			alert(xmlDoc);			 
-			if(xmlDoc == '1'){
-				swal("保存成功",'','success');
+			newTd0.innerHTML = '<input type="button" name="保存" value="保存" class="btn btn-primary" onclick="ScoreSave()">';
+			var newTr = scoreResult.insertRow();
+			for(var j = 0; j < field[0].length - 2; j++) {
+				var newTd0 = newTr.insertCell();
+				if(j == 0)
+					newTd0.innerHTML = '分值';
+				if(j > 1)
+					newTd0.innerHTML = myselect;
 			}
-			else{swal("保存失败",'','error');}
-		});
-	}
-	//重新计算函数
-	function ScoreCountFunc(field){
-		for(var i=1;i<field.length;i++){   
-			var temp=new Array();	
-			var score=100;//满分设置为100
-			for(var j=0;j<field[i].length;j++)	{
-				if(j>1) 
-				score = score - Math.abs((field[i][j]-field[1][j]))*mySelect[j-2];
+			var newTd0 = newTr.insertCell();
+			newTd0.innerHTML = '<input type="button" name="重新计算" value="重新计算" class="btn btn-primary" onclick="ScoreCountAgain()">';
+
+			//		var newTr = scoreResult.insertRow();
+			//		var newTd0 = newTr.insertCell();
+			//		newTd0.innerHTML = '教师标准';
+			//真正的计算过程
+			for(var i = 1; i < field.length; i++) {
+				var temp = new Array();
+				var newTr = scoreResult.insertRow();
+				var score = 100; //满分设置为100
+				console.log(`score:${field[i]}`);
+				for(var j = 0; j < field[i].length - 2; j++) {
+					var newTd0 = newTr.insertCell();
+					newTd0.innerHTML = field[i][j];
+					if(j > 1) {
+						score = score - Math.abs((field[i][j] - field[1][j])) * mySelect[j]; //每个项目1分
+					}
+				}
+				var newTd0 = newTr.insertCell();
+				newTd0.innerHTML = '<span class="myScoreTd">' + score + '</span>';
+				temp[0] = School_ID;
+				temp[1] = field[i][0];
+				temp[2] = getTerm();
+				temp[3] = score;
+				StudentScore[i - 1] = temp;
+				//			alert(StudentScore[i-1][1]);
 			}
-			$(".myScoreTd").eq(i-1).text(score);
-			temp[0]=School_ID;
-			temp[1]=field[i][0];
-			temp[2]=getTerm();
-			temp[3]=score;
-			StudentScore[i-1]=temp;
+			//		var newTr = scoreResult.insertRow();
+			//		var newTd0 = newTr.insertCell();
+			//		newTd0.innerHTML = '学生成绩';
 		}
-		console.log(StudentScore);
-	}
-	//通过获取下拉菜单，给mySelect数组重新赋值，2->2,-5->1/5,依此类推
-	function ScoreCountAgain(){
-		//获取select的值
-		var l = $('select').length;
-		for(var i = 0; i < l; i++){
-			mySelect[i] = parseInt($('select').eq(i).val());
-			if(mySelect[i] < 0){
-				mySelect[i] = 1/(-mySelect[i]);
+		//获得学生批改记录并进行计算
+		function ScoreCount() {
+			var pDate = {};
+			pDate['type'] = 8;
+			pDate['Teacher_ID'] = Teacher_ID;
+			pDate['School_ID'] = School_ID;
+			pDate['term'] = getTerm();
+			postDate = JSON.stringify(pDate);
+			var byUrl = "ME_Teacher.php";
+			var xmlDoc;
+			getxmlDoc(byUrl, postDate, function(xmlDoc) {
+				//			alert(xmlDoc);
+				stuScoreRecord = eval(xmlDoc);
+				console.log(stuScoreRecord);
+				scoreList(xmlDoc);
+			});
+		}
+		//保存成绩
+		function ScoreSave() {
+			var pDate = {};
+			pDate['type'] = 9;
+			pDate['StudentScore'] = JSON.stringify(StudentScore);
+			postDate = JSON.stringify(pDate);
+			//		alert("postDate="+postDate);
+			var byUrl = "ME_Teacher.php";
+			var xmlDoc;
+			getxmlDoc(byUrl, postDate, function(xmlDoc) {
+				//			alert(xmlDoc);			 
+				if(xmlDoc == '1') {
+					swal("保存成功", '', 'success');
+				} else {
+					swal("保存失败", '', 'error');
+				}
+			});
+		}
+		//重新计算函数
+		function ScoreCountFunc(field) {
+			for(var i = 1; i < field.length; i++) {
+				var temp = new Array();
+				var score = 100; //满分设置为100
+				for(var j = 0; j < field[i].length; j++) {
+					if(j > 1)
+						score = score - Math.abs((field[i][j] - field[1][j])) * mySelect[j - 2];
+				}
+				$(".myScoreTd").eq(i - 1).text(score);
+				temp[0] = School_ID;
+				temp[1] = field[i][0];
+				temp[2] = getTerm();
+				temp[3] = score;
+				StudentScore[i - 1] = temp;
 			}
-			console.log(mySelect[i]);
+			console.log(StudentScore);
 		}
-		//重新计算列表
-		ScoreCountFunc(stuScoreRecord);
-		//重新渲染表格
-		
-	}
-	
-	//成绩查看
-	function ScoreShow(){
-		var pDate={};
-		pDate['type']=11; 
-		pDate['Teacher_ID']=Teacher_ID;
-		pDate['School_ID']=School_ID;
-		pDate['term']= getTerm();
-		postDate=JSON.stringify(pDate);
-		var byUrl="ME_Teacher.php";
-		var xmlDoc;
-		getxmlDoc(byUrl,postDate,function(xmlDoc) {
-			var data = eval(xmlDoc);
-			console.log(data);
-			//表格展示
-			$('#stuScoreList').html('');
-			var con = '<tr><th class="text-center">学号</th><th class="text-center">姓名</th><th class="text-center">成绩</th></tr>';
-			for(var i = 0 ; i < data.length; i++){
-				con += `<tr><td>${data[i]['Student_ID']}</td><td>${data[i]['User_Name']}</td><td>${data[i]['Score']}</td></tr>`;
+		//通过获取下拉菜单，给mySelect数组重新赋值，2->2,-5->1/5,依此类推
+		function ScoreCountAgain() {
+			//获取select的值
+			var l = $('select').length;
+			for(var i = 0; i < l; i++) {
+				mySelect[i] = parseInt($('select').eq(i).val());
+				if(mySelect[i] < 0) {
+					mySelect[i] = 1 / (-mySelect[i]);
+				}
+				console.log(mySelect[i]);
 			}
-			$('#stuScoreList').html(con);
-		});
-	}
-	//成绩下载
-	function ScoreDownload(event){
-		if(isIE()){
-			alert("请换用其他浏览器进行下载");
-			return;
+			//重新计算列表
+			ScoreCountFunc(stuScoreRecord);
+			//重新渲染表格
+
 		}
-		if(event.target.nodeName === "A"){
-			tableExport('stuScoreList','成绩单',event.target.getAttribute('data-type'));
+
+		//成绩查看
+		function ScoreShow() {
+			var pDate = {};
+			pDate['type'] = 11;
+			pDate['Teacher_ID'] = Teacher_ID;
+			pDate['School_ID'] = School_ID;
+			pDate['term'] = getTerm();
+			postDate = JSON.stringify(pDate);
+			var byUrl = "ME_Teacher.php";
+			var xmlDoc;
+			getxmlDoc(byUrl, postDate, function(xmlDoc) {
+				var data = eval(xmlDoc);
+				console.log(data);
+				//表格展示
+				$('#stuScoreList').html('');
+				var con = '<tr><th class="text-center">学号</th><th class="text-center">姓名</th><th class="text-center">成绩</th></tr>';
+				for(var i = 0; i < data.length; i++) {
+					con += `<tr><td>${data[i]['Student_ID']}</td><td>${data[i]['User_Name']}</td><td>${data[i]['Score']}</td></tr>`;
+				}
+				$('#stuScoreList').html(con);
+			});
 		}
-	}
-</script>
+		//成绩下载
+		function ScoreDownload(event) {
+			if(isIE()) {
+				alert("请换用其他浏览器进行下载");
+				return;
+			}
+			if(event.target.nodeName === "A") {
+				tableExport('stuScoreList', '成绩单', event.target.getAttribute('data-type'));
+			}
+		}
+	</script>
+
 </html>

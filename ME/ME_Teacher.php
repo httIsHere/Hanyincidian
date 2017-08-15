@@ -24,7 +24,7 @@
 		$studentlist = nl2br($studentlist);
 		$studentArr = explode("<br />",$studentlist); 
 		$studentNoPwd=array();
-		$txt ="学年学期".$term."\r\n课程名称".$coursename."\r\n教师用户名".$Teacher_ID."\r\n---------------------\r\n";
+		$txt ="学年学期：".$term."\r\n课程名称：".$coursename."\r\n教师用户名：".$Teacher_ID."\r\n---------------------\r\n";
 		$txt =$txt."学号     密码\r\n";
 		for($index=0;$index<count($studentArr);$index++) 
 		{ 	
@@ -49,21 +49,26 @@
 			$txt =$txt.$oneNo.'  '.$studentNoPwd[$index]['pwd']."\r\n";
 		} 
 		$myfilename='./student/'.$term.'_'.$School_ID.'_'.$Teacher_ID.'_'.$coursename.'_StudentPassWords.txt';
-		
-		
-		// logger('me_teacher','log/','Log',"StudentPasswords=".$myfilename));
-		$myfile = fopen($myfilename, "w");
+		//对文件名的编码，避免中文文件名乱码
+        $myfilename2 = iconv("UTF-8", "GBK", $myfilename); 
+		logger('me_teacher','log/','Log',"StudentPasswords=".$myfilename);
+		$myfile = fopen($myfilename2, "w");
 		$txt =$txt."\r\n---------------------\r\n\r\n\r\n\r\n请复制粘贴，妥善保存信息！";
 		// logger('me_teacher','log/','Log',"StudentPasswords=".$myfilename));		
 		fwrite($myfile, $txt);
 		fclose($myfile);
-		//downloadFile($myfilename);
-		$replyStr=$myfilename;
+		if(file_exists($myfilename2)){
+			$replyStr = $myfilename;
+		}
+		else{
+			$replyStr="文件不存在";
+		}
 	}
 	//已有学生名单
 	if($typefile == 12){
-		var $teacherid = $_POST['teacherid'];
-		$sql = "select Student_ID,User_Name, CourseName from (ME_STAssociate join ME_User on Student_ID = User_ID and ME_User.School_ID = ME_STAssociate.School_ID) where Teacher_ID = '$teacherid'";
+		logger('me_teacher','log/','Log',"postStr=".json_encode($_POST));
+		$teacherid = $_POST["teacherid"];
+		$sql = "select Student_ID,User_Name, CourseName, Term from (ME_STAssociate join ME_User on Student_ID = User_ID and ME_User.School_ID = ME_STAssociate.School_ID) where Teacher_ID = '$teacherid' order by Term desc";
 		$res = runSelectSql($sql);
 		$replyStr = json_encode($res);
 	}
