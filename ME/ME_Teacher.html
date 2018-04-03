@@ -783,8 +783,8 @@
 			getxmlDoc(byUrl, postDate, function(xmlDoc) {
 				console.log(xmlDoc);
 				//			var data = eval(xmlDoc);
-				//			var data = xmlDoc;
-				if(data.length > 0) {
+				var data = xmlDoc;
+				if(data) {
 					if(isIE() == false)
 						alert('学生信息已经上传，请马上下载学生密码表！');
 					else
